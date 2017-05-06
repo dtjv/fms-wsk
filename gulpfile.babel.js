@@ -19,11 +19,6 @@
 
 'use strict';
 
-// This gulpfile makes use of new JavaScript features.
-// Babel handles this without us having to do anything. It just works.
-// You can read more about the new JavaScript features here:
-// https://babeljs.io/docs/learn-es2015/
-
 import path from 'path';
 import gulp from 'gulp';
 import del from 'del';
@@ -64,7 +59,8 @@ gulp.task('copy', () =>
     'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
-  }).pipe(gulp.dest('dist'))
+  })
+    .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'copy'}))
 );
 
@@ -102,9 +98,7 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('.tmp/styles'));
 });
 
-// Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
-// to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
-// `.babelrc` file.
+// Concatenate and minify JavaScript.
 gulp.task('scripts', () =>
     gulp.src([
       // Note: Since we are not using useref in the scripts build pipeline,
@@ -160,7 +154,7 @@ gulp.task('serve', ['scripts', 'styles'], () => {
   browserSync({
     notify: false,
     // Customize the Browsersync console logging prefix
-    logPrefix: 'WSK',
+    logPrefix: 'FMS-APP',
     // Allow scroll syncing across breakpoints
     scrollElementMapping: ['main', '.mdl-layout'],
     // Run as an https by uncommenting 'https: true'
@@ -181,7 +175,7 @@ gulp.task('serve', ['scripts', 'styles'], () => {
 gulp.task('serve:dist', ['default'], () =>
   browserSync({
     notify: false,
-    logPrefix: 'WSK',
+    logPrefix: 'FMS-APP',
     // Allow scroll syncing across breakpoints
     scrollElementMapping: ['main', '.mdl-layout'],
     // Run as an https by uncommenting 'https: true'
@@ -214,9 +208,13 @@ gulp.task('pagespeed', cb =>
   }, cb)
 );
 
-// Copy over the scripts that are used in importScripts as part of the generate-service-worker task.
+// Copy over the scripts that are used in importScripts as part of the
+// generate-service-worker task.
 gulp.task('copy-sw-scripts', () => {
-  return gulp.src(['node_modules/sw-toolbox/sw-toolbox.js', 'app/scripts/sw/runtime-caching.js'])
+  return gulp.src([
+    'node_modules/sw-toolbox/sw-toolbox.js',
+    'app/scripts/sw/runtime-caching.js'
+  ])
     .pipe(gulp.dest('dist/scripts/sw'));
 });
 
@@ -231,8 +229,8 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
 
   return swPrecache.write(filepath, {
     // Used to avoid cache conflicts when serving on localhost.
-    cacheId: pkg.name || 'web-starter-kit',
-    // sw-toolbox.js needs to be listed first. It sets up methods used in runtime-caching.js.
+    cacheId: pkg.name || 'fms-app',
+    // list sw-toolbox.js first. It sets up methods used in runtime-caching.js.
     importScripts: [
       'scripts/sw/sw-toolbox.js',
       'scripts/sw/runtime-caching.js'
@@ -247,10 +245,10 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
     // Translates a static file path to the relative URL that it's served from.
     // This is '/' rather than path.sep because the paths returned from
     // glob always use '/'.
-    stripPrefix: rootDir + '/'
+    stripPrefix: `${rootDir}/`
   });
 });
 
 // Load custom tasks from the `tasks` directory
-// Run: `npm install --save-dev require-dir` from the command-line
+// Run: `yarn add --dev require-dir` from the command-line
 // try { require('require-dir')('tasks'); } catch (err) { console.error(err); }
