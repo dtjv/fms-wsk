@@ -104,8 +104,38 @@ gulp.task('scripts', () =>
       // Note: Since we are not using useref in the scripts build pipeline,
       //       you need to explicitly list your scripts here in the right order
       //       to be correctly concatenated
-      './app/scripts/main.js'
-      // Other scripts
+      './app/styles/materialize/js/initial.js',
+      './app/styles/materialize/js/jquery.easing.1.3.js',
+      './app/styles/materialize/js/animation.js',
+      './app/styles/materialize/js/velocity.min.js',
+      './app/styles/materialize/js/hammer.min.js',
+      './app/styles/materialize/js/jquery.hammer.js',
+      './app/styles/materialize/js/global.js',
+      './app/styles/materialize/js/buttons.js',
+      './app/styles/materialize/js/cards.js',
+      './app/styles/materialize/js/carousel.js',
+      './app/styles/materialize/js/character_counter.js',
+      './app/styles/materialize/js/chips.js',
+      './app/styles/materialize/js/collapsible.js',
+      './app/styles/materialize/js/dropdown.js',
+      './app/styles/materialize/js/forms.js',
+      './app/styles/materialize/js/materialbox.js',
+      './app/styles/materialize/js/modal.js',
+      './app/styles/materialize/js/parallax.js',
+      './app/styles/materialize/js/pushpin.js',
+      './app/styles/materialize/js/scrollFire.js',
+      './app/styles/materialize/js/scrollspy.js',
+      './app/styles/materialize/js/sideNav.js',
+      './app/styles/materialize/js/slider.js',
+      './app/styles/materialize/js/tabs.js',
+      './app/styles/materialize/js/tapTarget.js',
+      './app/styles/materialize/js/toasts.js',
+      './app/styles/materialize/js/tooltip.js',
+      './app/styles/materialize/js/transitions.js',
+      './app/styles/materialize/js/waves.js',
+      './app/styles/materialize/js/date_picker/picker.js',
+      './app/styles/materialize/js/date_picker/picker.date.js',
+      './app/scripts/main.js',
     ])
       .pipe($.newer('.tmp/scripts'))
       .pipe($.sourcemaps.init())
@@ -154,7 +184,7 @@ gulp.task('serve', ['scripts', 'styles'], () => {
   browserSync({
     notify: false,
     // Customize the Browsersync console logging prefix
-    logPrefix: 'FMS-APP',
+    logPrefix: 'FMS',
     // Allow scroll syncing across breakpoints
     scrollElementMapping: ['main', '.mdl-layout'],
     // Run as an https by uncommenting 'https: true'
@@ -175,7 +205,7 @@ gulp.task('serve', ['scripts', 'styles'], () => {
 gulp.task('serve:dist', ['default'], () =>
   browserSync({
     notify: false,
-    logPrefix: 'FMS-APP',
+    logPrefix: 'FMS',
     // Allow scroll syncing across breakpoints
     scrollElementMapping: ['main', '.mdl-layout'],
     // Run as an https by uncommenting 'https: true'

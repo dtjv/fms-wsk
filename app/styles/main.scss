@@ -1,0 +1,26 @@
+@import "materialize/materialize";
+
+@import "app/utils";
+@import "app/buttons";
+@import "app/footer";
+@import "app/logo";
+@import "app/nav";
+@import "app/screen";
+
+html {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.container {
+  padding-top: 50px;
+}

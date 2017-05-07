@@ -1,0 +1,18 @@
+nav .nav-wrapper {
+  padding-right: 50px;
+}
+
+nav .brand-logo {
+  padding-left: 0;
+}
+
+/* logo padded on medium and up */
+@media screen and (min-width: 993px){
+  nav .brand-logo {
+    padding-left: 50px;
+  }
+}
+
+.navbar-fixed {
+  z-index: 998;
+}
