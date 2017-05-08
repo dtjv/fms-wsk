@@ -1,4 +1,4 @@
-# FMS-APP 
+# FMS
 
 A web app to capture [FMS](https://functionalmovement.com) assessment scores.
 

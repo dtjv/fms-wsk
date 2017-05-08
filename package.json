@@ -1,7 +1,7 @@
 {
   "name": "fms-app",
   "version": "0.0.1",
-  "description": "Captures FMS scores",
+  "description": "A web app to capture FMS scores",
   "author": {
     "name": "David J. Valles",
     "email": "davidtjvalles@gmail.com"
