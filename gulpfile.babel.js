@@ -135,7 +135,7 @@ gulp.task('scripts', () =>
       './app/styles/materialize/js/waves.js',
       './app/styles/materialize/js/date_picker/picker.js',
       './app/styles/materialize/js/date_picker/picker.date.js',
-      './app/scripts/main.js',
+      './app/scripts/main.js'
     ])
       .pipe($.newer('.tmp/scripts'))
       .pipe($.sourcemaps.init())
@@ -180,13 +180,13 @@ gulp.task('html', () => {
 gulp.task('clean', () => del(['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
 
 // Watch files for changes & reload
-gulp.task('serve', ['scripts', 'styles'], () => {
+gulp.task('serve', ['lint', 'scripts', 'styles'], () => {
   browserSync({
     notify: false,
     // Customize the Browsersync console logging prefix
     logPrefix: 'FMS',
     // Allow scroll syncing across breakpoints
-    scrollElementMapping: ['main', '.mdl-layout'],
+    scrollElementMapping: ['main', '#app'],
     // Run as an https by uncommenting 'https: true'
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
@@ -207,7 +207,7 @@ gulp.task('serve:dist', ['default'], () =>
     notify: false,
     logPrefix: 'FMS',
     // Allow scroll syncing across breakpoints
-    scrollElementMapping: ['main', '.mdl-layout'],
+    scrollElementMapping: ['main', '#app'],
     // Run as an https by uncommenting 'https: true'
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.

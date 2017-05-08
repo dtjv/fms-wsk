@@ -60,18 +60,9 @@
         </nav>
       </div>
     </header>
+
     <main class="container">
-      <div class="row">
-        <div class="col s12 center-align">
-          <h3><strong>Welcome to FMS</strong></h3>
-          <div class="btn-google">
-            <div class="btn-google-wrapper cf">
-              <img class="btn-google-icon" src="./images/btn_google_dark_normal_ios.svg" alt="">
-              <span class="btn-google-content">Sign in with Google</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="app"></div>
     </main>
 
     <footer class="page-footer blue-grey darken-3">
@@ -83,6 +74,110 @@
         </div>
       </div>
     </footer>
+
+    <template id="sign-in-template">
+      <div class="row">
+        <div class="col s12 center-align">
+          <h3><strong>Welcome to FMS</strong></h3>
+          <div class="btn-google">
+            <div class="btn-google-wrapper cf">
+              <img class="btn-google-icon" src="./images/btn_google_dark_normal_ios.svg" alt="">
+              <span class="btn-google-content">Sign in with Google</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="list-clients-template">
+      <div class="row">
+        <div class="col s6 m3">
+          <div class="card-panel hoverable">
+            <span class="">Joe</span>
+            <span class="">10</span>
+          </div>
+        </div>
+        <div class="col s6 m3">
+          <div class="card-panel hoverable">
+            <span class="">Mary</span>
+            <span class="">4</span>
+          </div>
+        </div>
+        <div class="col s6 m3">
+          <div class="card-panel hoverable">
+            <span class="">Dan</span>
+            <span class="">9</span>
+          </div>
+        </div>
+        <div class="col s6 m3">
+          <div class="card-panel hoverable">
+            <span class="">Sally</span>
+            <span class="">14</span>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="new-screen-template">
+      <div class="row">
+        <form action="" class="col s12">
+          <div class="row screen white z-depth-3">
+            <div class="col s12 m6 offset-m3">
+              <div class="screen-title blue-grey-text text-darken-2">Client</div>
+              <div class="row">
+                <div class="col s12">
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input id="first-name" type="text" class="validate">
+                      <label for="first-name">First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="last-name" type="text" class="validate">
+                      <label for="last-name">Last Name</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <textarea id="client-notes" class="materialize-textarea"></textarea>
+                      <label for="client-notes">Notes</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row center-align">
+            <button class="btn-submit-screen btn-large blue waves-effect waves-light" type="submit" name=""> SUBMIT </button>
+          </div>
+        </form>
+      </div>
+    </template>
+
+    <template id="client-detail-template">
+      <div class="row">
+        <div class="col s12">
+          <div class="row screen screen-mode--read blue-grey lighten-5 z-depth-3">
+            <div class="col s12 m6 offset-m3">
+              <div class="screen-title blue-grey-text text-darken-2">
+                Joe Smith
+                <span class="right">14</span>
+              </div>
+              <div class="row">
+                <div class="col s12">
+                  <div class="row">
+                    <div class="comments col s12">
+                      <span>Some basic background info. Not much though.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- build:js scripts/main.min.js -->
