@@ -86,6 +86,13 @@
       e.preventDefault();
       app.user = 'David';
       console.log(app.user);
+
+      const $clientListElment = $('#list-clients-template')
+        .contents()
+        .clone(true);
+
+      // set event listeners on $clientLisElmentt
+      app.$anchor.replaceWith($clientListElment);
     };
 
     // -------------------------------------------------------------------------
@@ -94,9 +101,9 @@
     //
     // -------------------------------------------------------------------------
     if (!app.user) {
-      const $clone = $('#sign-in-template').contents().clone(true);
-      $clone.on('click', app.handleSignIn);
-      app.$anchor.append($clone);
+      const $signInElment = $('#sign-in-template').contents().clone(true);
+      $signInElment.on('click', app.handleSignIn);
+      app.$anchor.append($signInElment);
     } else {
       console.log(`${app.user}!`);
     }
