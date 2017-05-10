@@ -82,17 +82,41 @@
       $anchor: $('#app'),
     };
 
-    app.handleSignIn = function(e) {
+    // -------------------------------------------------------------------------
+    //
+    // setup listeners
+    //
+    // -------------------------------------------------------------------------
+
+
+    app.signIn = function(e) {
       e.preventDefault();
       app.user = 'David';
-      console.log(app.user);
 
-      const $clientListElment = $('#list-clients-template')
+      // really... signIn should JUST sign in. there should be some listener on
+      // app.user state change, that would be triggered and call this next
+      // function!!
+      app.showClientList();
+    };
+
+    app.showClientList = function() {
+      const $clientListElement = $('#list-clients-template')
         .contents()
         .clone(true);
 
-      // set event listeners on $clientLisElmentt
-      app.$anchor.replaceWith($clientListElment);
+      $clientListElement.on('click', '#screen-new-fab', app.showNewScreen);
+      app.$anchor.replaceWith($clientListElement);
+    };
+
+    app.showNewScreen = function(e) {
+      e.preventDefault();
+
+      console.log('showNewScreen');
+
+      const $newScreenElement = $('#new-screen-template')
+        .contents()
+        .clone(true);
+      app.$anchor.replaceWith($newScreenElement);
     };
 
     // -------------------------------------------------------------------------
@@ -101,9 +125,12 @@
     //
     // -------------------------------------------------------------------------
     if (!app.user) {
-      const $signInElment = $('#sign-in-template').contents().clone(true);
-      $signInElment.on('click', app.handleSignIn);
-      app.$anchor.append($signInElment);
+      const $signInElement = $('#sign-in-template')
+        .contents()
+        .clone(true);
+
+      $signInElement.on('click', app.signIn);
+      app.$anchor.append($signInElement);
     } else {
       console.log(`${app.user}!`);
     }
