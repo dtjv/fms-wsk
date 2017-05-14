@@ -79,6 +79,14 @@
 
         <div id="client-list-view" class="hide">
           <div class="row">
+            <!-- template stays hidden. app will clone this template to build client list view. -->
+            <div class="col s6 m3 client-template hide">
+              <div class="card-panel hoverable" data-client="">
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
             <div class="col s6 m3">
               <div class="card-panel hoverable" data-client="{'name':'Joe', 'score':10}">
                 <span class="">Joe</span>
@@ -103,6 +111,7 @@
                 <span class="">14</span>
               </div>
             </div>
+
           </div>
           <div class="fixed-action-btn">
             <div id="btn-add-screen" class="screen-new btn-floating btn-large green">
@@ -141,6 +150,360 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Deep Squat
+                    <span class="screen-final-score right">0</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-raw-scores input-field col s4 offset-s4">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="deep-squat-notes" class="materialize-textarea"></textarea>
+                          <label for="deep-squat-notes">Notes</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Hurdle Step
+                    <span class="right">1</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-raw-scores input-field col s4 offset-s2">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label>Left</label>
+                    </div>
+                    <div class="screen-raw-scores input-field col s4">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label>Right</label>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="hurdle_step_comment" class="materialize-textarea"></textarea>
+                          <label for="hurdle_step_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Inline Lunge
+                    <span class="right">1</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-raw-scores input-field col s4 offset-s2">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label>Left</label>
+                    </div>
+                    <div class="screen-raw-scores input-field col s4">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label>Right</label>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="inline-lunge_comment" class="materialize-textarea"></textarea>
+                          <label for="inline-lunge_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Shoulder Mobility
+                    <span class="right">0</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-raw-scores input-field col s4 offset-s2">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label for="">Left</label>
+                    </div>
+                    <div class="screen-raw-scores input-field col s4">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label for="">Right</label>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="shoulder_mobility_comment" class="materialize-textarea"></textarea>
+                          <label for="shoulder_mobility_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Shoulder Clearing Test
+                    <i class="material-icons plus-icon right">add_circle</i>
+                  </div>
+                  <div class="row">
+                    <div class="screen-trial--heading col s3 offset-s1">
+                      <span><strong>LEFT</strong></span>
+                    </div>
+                    <div class="col s3">
+                      <div class="right-align">
+                        <i class="material-icons plus-icon">add_circle</i>
+                      </div>
+                    </div>
+                    <div class="col s3">
+                      <div>
+                        <i class="material-icons minus-icon">remove_circle_outline</i>
+                      </div>
+                    </div>
+                    <div class="screen-trial--heading col s3 offset-s1">
+                      <span><strong>RIGHT</strong></span>
+                    </div>
+                    <div class="col s3">
+                      <div class="right-align">
+                        <i class="material-icons plus-icon">add_circle_outline</i>
+                      </div>
+                    </div>
+                    <div class="col s3">
+                      <div>
+                        <i class="material-icons minus-icon">remove_circle</i>
+                      </div>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="shoulder_clearing_comment" class="materialize-textarea"></textarea>
+                          <label for="shoulder_clearing_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Active Straight Leg Raise
+                    <span class="right">2</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-raw-scores input-field col s4 offset-s2">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label for="">Left</label>
+                    </div>
+                    <div class="screen-raw-scores input-field col s4">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label for="">Right</label>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="aslr_comment" class="materialize-textarea"></textarea>
+                          <label for="aslr_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Trunk Stability Pushup
+                    <span class="right">2</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-raw-scores input-field col s4 offset-s4">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="trunk_stability_pushup_comment" class="materialize-textarea"></textarea>
+                          <label for="trunk_stability_pushup_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Extension Clearing Test
+                    <i class="material-icons plus-icon right">add_circle</i>
+                  </div>
+                  <div class="row">
+                    <div class="col s6">
+                      <div class="right-align">
+                        <i class="material-icons plus-icon">add_circle</i>
+                      </div>
+                    </div>
+                    <div class="col s6">
+                      <div class="left-align">
+                        <i class="material-icons minus-icon">remove_circle_outline</i>
+                      </div>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="extension_clearing_test_comment" class="materialize-textarea"></textarea>
+                          <label for="extension_clearing_test_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Rotary Stability
+                    <span class="right">2</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-raw-scores input-field col s4 offset-s2">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label for="">Left</label>
+                    </div>
+                    <div class="screen-raw-scores input-field col s4">
+                      <select>
+                        <option value="" disabled selected>Raw Score</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                      <label for="">Right</label>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="rotarty_stability_comment" class="materialize-textarea"></textarea>
+                          <label for="rotarty_stability_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Flexion Clearing Test
+                    <i class="material-icons plus-icon right">remove_circle</i>
+                  </div>
+                  <div class="row">
+                    <div class="col s6">
+                      <div class="right-align">
+                        <i class="material-icons plus-icon">add_circle_outline</i>
+                      </div>
+                    </div>
+                    <div class="col s6">
+                      <div class="left-align">
+                        <i class="material-icons minus-icon">remove_circle</i>
+                      </div>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="flexion_clearing_test_comment" class="materialize-textarea"></textarea>
+                          <label for="flexion_clearing_test_comment">Comment</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row center-align">
                 <!-- change btn-submit-screen class name... not generic enough -->
                 <button id="btn-submit" class="btn-submit-screen btn-large green waves-effect waves-light" type="submit" name=""> SUBMIT </button>
@@ -167,6 +530,282 @@
                       <div class="row">
                         <div class="comments col s12">
                           <span>Some basic background info. Not much though.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen screen-mode--read white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Deep Squat
+                    <span class="right">0</span>
+                  </div>
+                  <div class="row">
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>Lorem ipsum dolor sit amet. Fugiat beatae explicabo enim praesentium quae animi.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen screen-mode--read white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Hurdle Step
+                    <span class="right">1</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4 offset-s2">
+                      <span>2</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4">
+                      <span>1</span>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat beatae explicabo enim praesentium quae animi libero maxime esse voluptatibus laborum minima inventore incidunt voluptatem rerum vero qui pariatur, porro perferendis.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen screen-mode--read white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Inline Lunge
+                    <span class="right">1</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4 offset-s2">
+                      <span>2</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4">
+                      <span>1</span>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>Lorem ipsum dolor sit amet.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Shoulder Mobility
+                    <span class="right">1</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4 offset-s2">
+                      <span>2</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4">
+                      <span>1</span>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Shoulder Clearing Test
+                    <i class="material-icons plus-icon right">add_circle</i>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score center-align input-field col s4 offset-s2">
+                      <i class="material-icons plus-icon">add_circle</i>
+                    </div>
+                    <div class="screen-trial--score center-align input-field col s4">
+                      <i class="material-icons plus-icon">remove_circle</i>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>A few good words...</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen screen-mode--read white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Active Straight Leg Raise
+                    <span class="right">1</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4 offset-s2">
+                      <span>2</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4">
+                      <span>1</span>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>Lorem ipsum dolor sit amet.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen screen-mode--read white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Trunk Stability Pushup
+                    <span class="right">0</span>
+                  </div>
+                  <div class="row">
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>Lorem ipsum dolor sit amet. Fugiat beatae explicabo enim praesentium quae animi.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Extension Clearing Test
+                    <i class="material-icons plus-icon right">remove_circle</i>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score center-align input-field col s4 offset-s2">
+                      <i class="material-icons plus-icon">remove_circle</i>
+                    </div>
+                    <div class="screen-trial--score center-align input-field col s4">
+                      <i class="material-icons plus-icon">remove_circle</i>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>A few good words...</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen screen-mode--read white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Rotary Stability
+                    <span class="right">1</span>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4 offset-s2">
+                      <span>2</span>
+                    </div>
+                    <div class="screen-trial--score input-field col s4">
+                      <span>1</span>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>Lorem ipsum dolor sit amet.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row screen white z-depth-3">
+                <div class="col s12 m6 offset-m3">
+                  <div class="screen-title blue-grey-text text-darken-2">
+                    Flexion Clearing Test
+                    <i class="material-icons plus-icon right">remove_circle</i>
+                  </div>
+                  <div class="row">
+                    <div class="screen-label center-align grey-text input-field col s4 offset-s2">
+                      <span>Left</span>
+                    </div>
+                    <div class="screen-label center-align grey-text input-field col s4">
+                      <span>Right</span>
+                    </div>
+                    <div class="screen-trial--score center-align input-field col s4 offset-s2">
+                      <i class="material-icons plus-icon">remove_circle</i>
+                    </div>
+                    <div class="screen-trial--score center-align input-field col s4">
+                      <i class="material-icons plus-icon">remove_circle</i>
+                    </div>
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="comments col s12">
+                          <span>A few good words...</span>
                         </div>
                       </div>
                     </div>
