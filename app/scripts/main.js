@@ -58,11 +58,8 @@
                 // It's the perfect time to display a "New content is
                 // available; please refresh." message in the page's interface.
                 break;
-
               case 'redundant':
-                throw new Error('The installing ' +
-                                'service worker became redundant.');
-
+                throw new Error('The service worker became redundant.');
               default:
                 // Ignore
             }
@@ -74,49 +71,133 @@
     });
   }
 
-  (function() {
+  // ---------------------------------------------------------------------------
+  //
+  // app specific
+  //
+  // ---------------------------------------------------------------------------
+  (function(window) {
     'use strict';
 
     const app = {
       user: null,
-      $anchor: $('#app'),
+      views: {
+        $signIn: $('#signin-view'),
+        $clientList: $('#client-list-view'),
+        $newScreen: $('#new-screen-view'),
+        $clientDetail: $('#client-detail-view'),
+      },
+      clients: {},
     };
 
     // -------------------------------------------------------------------------
     //
-    // setup listeners
+    // register event listeners
+    //
+    // ideally...
+    //
+    // when someone clicks a button, the application state should change. then
+    // the app re-renders based on the new app state.
+    // -------------------------------------------------------------------------
+    $('.btn-google').on('click', function(e) {
+      e.preventDefault();
+      app.signIn()
+        .then((user) => app.showClientListView(app.user))
+        .catch((error) => console.error(`error during signin: ${error}`));
+    });
+
+    $('#btn-add-screen').on('click', function(e) {
+      e.preventDefault();
+      app.showNewScreenView();
+    });
+
+    $('#btn-submit').on('click', function(e) {
+      e.preventDefault();
+      app.saveNewScreen(app.user)
+        .then(() => app.showClientListView(app.user))
+        .catch((error) => console.error(`error saving new screen: ${error}`));
+    });
+
+    $('#btn-cancel').on('click', function(e) {
+      e.preventDefault();
+      app.showClientListView(app.user);
+    });
+
+    $('.card-panel').on('click', function(e) {
+      e.preventDefault();
+      let $target = $(e.target);
+
+      if (!$target.hasClass('card-panel')) {
+        $target = $target.parent();
+      }
+
+      app.showClientDetailView($target.data().client);
+    });
+
+    $('#btn-close-detail').on('click', function(e) {
+      e.preventDefault();
+      app.showClientListView(app.user);
+    });
+
+    // -------------------------------------------------------------------------
+    //
+    // app methods
     //
     // -------------------------------------------------------------------------
 
+    app.showSignInView = function() {
+      console.log('** showSignInView **');
+      app.toggleViewOn(app.views.$signIn);
+    };
 
-    app.signIn = function(e) {
-      e.preventDefault();
+    app.showClientListView = function(user) {
+      console.log('** showClientListView **');
+      return app
+        .fetchClients(user)
+        .then((clients) => {
+          app.buildClientListView(clients);
+          app.toggleViewOn(app.views.$clientList);
+        });
+    };
+
+    app.showNewScreenView = function() {
+      console.log('** showNewScreenView **');
+      app.toggleViewOn(app.views.$newScreen);
+    };
+
+    app.showClientDetailView = function(client) {
+      console.log('** showClientDetailView **');
+      console.log(`...client: ${JSON.stringify(client)}`);
+      app.toggleViewOn(app.views.$clientDetail);
+    };
+
+    app.signIn = function() {
       app.user = 'David';
-
-      // really... signIn should JUST sign in. there should be some listener on
-      // app.user state change, that would be triggered and call this next
-      // function!!
-      app.showClientList();
+      return Promise.resolve(app.user);
     };
 
-    app.showClientList = function() {
-      const $clientListElement = $('#list-clients-template')
-        .contents()
-        .clone(true);
-
-      $clientListElement.on('click', '#screen-new-fab', app.showNewScreen);
-      app.$anchor.replaceWith($clientListElement);
+    app.fetchClients = function(user) {
+      console.log(`...fetch clients for trainer ${user}`);
+      return Promise.resolve({});
     };
 
-    app.showNewScreen = function(e) {
-      e.preventDefault();
+    app.buildClientListView = function(clients) {
+      console.log(`...loading clients into view`);
+    };
 
-      console.log('showNewScreen');
+    app.saveNewScreen = function(user) {
+      console.log(`...saving new screen for trainer ${user}`);
+      return Promise.resolve(true);
+    };
 
-      const $newScreenElement = $('#new-screen-template')
-        .contents()
-        .clone(true);
-      app.$anchor.replaceWith($newScreenElement);
+    app.toggleViewOn = function($targetView) {
+      Object.values(app.views).forEach(($view) => {
+        if ($targetView[0] === $view[0]) {
+          $view.removeClass('hide');
+        } else {
+          $view.addClass('hide');
+        }
+      });
     };
 
     // -------------------------------------------------------------------------
@@ -124,15 +205,12 @@
     // startup
     //
     // -------------------------------------------------------------------------
-    if (!app.user) {
-      const $signInElement = $('#sign-in-template')
-        .contents()
-        .clone(true);
+    window.fms = app;
 
-      $signInElement.on('click', app.signIn);
-      app.$anchor.append($signInElement);
+    if (!app.user) {
+      app.showSignInView();
     } else {
-      console.log(`${app.user}!`);
+      app.showClientListView(app.user);
     }
-  })();
+  })(window);
 })();
