@@ -1,15 +1,14 @@
-nav .nav-wrapper {
-  padding-right: 50px;
-}
+nav {
+  .nav-wrapper {
+    padding-right: 50px;
+  }
 
-nav .brand-logo {
-  padding-left: 0;
-}
+  .brand-logo {
+    padding-left: 0;
 
-/* logo padded on medium and up */
-@media screen and (min-width: 993px){
-  nav .brand-logo {
-    padding-left: 50px;
+    @media screen and (min-width: 993px) {
+      padding-left: 50px;
+    }
   }
 }
 

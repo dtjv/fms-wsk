@@ -1,43 +1,35 @@
 .btn-google {
   margin-top: 40px;
-}
 
-.btn-google-wrapper {
-  width: 240px;
-  color: white;
-  cursor: pointer;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #4285F4;
-}
+  &-wrapper {
+    width: 240px;
+    color: white;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #4285F4;
+  }
 
-.btn-google-icon {
-  height: 58px;
-  margin-left: -38px;
-  vertical-align: middle;
-}
+  &-icon {
+    height: 58px;
+    margin-left: -38px;
+    vertical-align: middle;
 
-@media screen and (min-width: 993px){
-  .btn-google-icon {
-    margin-left: -30px;
+    @media screen and (min-width: 993px) {
+      margin-left: -30px;
+    }
+  }
+
+  &-content {
+    display: inline-block;
+    padding-left: 20px;
+
+    span {
+      vertical-align: middle;
+    }
   }
 }
 
-.btn-google-content {
-  display: inline-block;
-  padding-left: 20px;
-}
-
-.btn-google-content span {
-  vertical-align: middle;
-}
-
-.btn-submit-screen {
-  margin-top: 20px;
-}
-
-#btn-close-detail {
-  position: absolute;
-  right: -38px;
-  top: -28px
+.btn-wrapper {
+  padding-top: 20px;
 }

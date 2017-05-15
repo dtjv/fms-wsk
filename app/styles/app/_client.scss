@@ -1,0 +1,21 @@
+.client {
+  padding: 40px 20px 0 20px;
+
+  &-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 50px;
+
+    @media screen and (min-width: 601px) {
+      font-size: 28px;
+    }
+  }
+
+  &-notes {
+    margin-top: 30px;
+  }
+
+  .input-field {
+    margin-top: 0;
+  }
+}

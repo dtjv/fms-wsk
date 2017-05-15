@@ -1,54 +1,39 @@
 .screen {
   padding: 40px 20px 0 20px;
-}
 
-.screen.screen-mode--read {
-  padding-top: 40px;
-}
+  &-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 50px;
 
-.screen-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 50px;
-}
-
-.screen-label {
-  margin-bottom: 10px;
-}
-
-@media screen and (min-width: 601px){
-  .screen-title {
-    font-size: 28px;
+    @media screen and (min-width: 601px) {
+      font-size: 28px;
+    }
   }
-}
 
-.screen-trial--score span {
-  display: block;
-  text-align: center;
-  font-size: 1.25em;
-}
+  &-label {
+    margin-bottom: 10px;
+  }
 
-.screen .input-field {
-  margin-top: 0;
-}
+  &-notes {
+    margin-top: 30px;
+  }
 
-/* this is targeting generated html. */
-.screen-trial-choices li span {
-  color: black;
-  text-align: center;
-}
+  // for client detail view
+  &-raw-score span {
+    display: block;
+    text-align: center;
+    font-size: 1.25em;
+  }
 
-.screen-score span,
-.screen-new span {
-  font-size: 1.5em;
-  line-height: 58px;
-}
+  // for new screen view
+  .input-field {
+    margin-top: 0;
+  }
 
-.plus-icon,
-.minus-icon {
-  font-size: 40px;
-}
-
-.comments {
-  margin-top: 30px;
+  // for new screen view: selects generated html
+  & ul li span {
+    color: black;
+    text-align: center;
+  }
 }
