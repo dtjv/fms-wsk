@@ -88,6 +88,7 @@
         $clientDetail: $('#client-detail-view'),
       },
       clients: {},
+      selectedClient: null,
     };
 
     // -------------------------------------------------------------------------
@@ -130,8 +131,8 @@
       if (!$target.hasClass('card-panel')) {
         $target = $target.parent();
       }
-
-      app.showClientDetailView($target.data().client);
+      app.selectedClient = $target.data().client;
+      app.showClientDetailView(app.selectedClient);
     });
 
     $('#btn-close-detail').on('click', function(e) {
@@ -146,29 +147,36 @@
     // -------------------------------------------------------------------------
 
     app.showSignInView = function() {
-      console.log('** showSignInView **');
       app.toggleViewOn(app.views.$signIn);
+      window.history.pushState({
+        route: '/sign-in',
+      }, 'FMS', '/sign-in');
     };
 
     app.showClientListView = function(user) {
-      console.log('** showClientListView **');
       return app
         .fetchClients(user)
         .then((clients) => {
           app.buildClientListView(clients);
           app.toggleViewOn(app.views.$clientList);
+          window.history.pushState({
+            route: '/client-list',
+          }, 'FMS', '/client-list');
         });
     };
 
     app.showNewScreenView = function() {
-      console.log('** showNewScreenView **');
       app.toggleViewOn(app.views.$newScreen);
+      window.history.pushState({
+        route: '/new-screen',
+      }, 'FMS', '/new-screen');
     };
 
     app.showClientDetailView = function(client) {
-      console.log('** showClientDetailView **');
-      console.log(`...client: ${JSON.stringify(client)}`);
       app.toggleViewOn(app.views.$clientDetail);
+      window.history.pushState({
+        route: '/client-detail',
+      }, 'FMS', '/client-detail');
     };
 
     app.signIn = function() {
@@ -177,16 +185,13 @@
     };
 
     app.fetchClients = function(user) {
-      console.log(`...fetch clients for trainer ${user}`);
       return Promise.resolve({});
     };
 
     app.buildClientListView = function(clients) {
-      console.log(`...loading clients into view`);
     };
 
     app.saveNewScreen = function(user) {
-      console.log(`...saving new screen for trainer ${user}`);
       return Promise.resolve(true);
     };
 
@@ -198,6 +203,32 @@
           $view.addClass('hide');
         }
       });
+    };
+
+    window.onpopstate = function({state}) {
+      const {route} = state;
+
+      switch (route) {
+        case '/':
+        case '/sign-in':
+          if (app.user) {
+            app.showClientListView(app.user);
+          } else {
+            app.showSignInView();
+          }
+          break;
+        case '/client-list':
+          app.showClientListView(app.user);
+          break;
+        case '/client-detail':
+          app.showClientDetailView(app.selectedClient);
+          break;
+        case '/new-screen':
+          app.showNewScreenView();
+          break;
+        default:
+          break;
+      };
     };
 
     // -------------------------------------------------------------------------
