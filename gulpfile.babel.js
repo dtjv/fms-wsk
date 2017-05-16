@@ -259,7 +259,7 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
 
   return swPrecache.write(filepath, {
     // Used to avoid cache conflicts when serving on localhost.
-    cacheId: pkg.name || 'fms-app',
+    cacheId: pkg.name || 'fms-wsk',
     // list sw-toolbox.js first. It sets up methods used in runtime-caching.js.
     importScripts: [
       'scripts/sw/sw-toolbox.js',

@@ -1,6 +1,10 @@
-# FMS
+# FMS-WSK
 
 A web app to capture [FMS](https://functionalmovement.com) assessment scores.
+
+## Tech Stack
+
+This app is based on [Web Starter Kit](https://github.com/google/web-starter-kit). However, I integrated [Materialize Sass](http://materializecss.com/) instead of [Material Design Lite](https://getmdl.io/).
 
 ## Disclaimer
 
