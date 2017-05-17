@@ -140,6 +140,11 @@
       app.showClientListView(app.user);
     });
 
+    $('.brand-logo').on('click', function(e) {
+      e.preventDefault();
+      app.startup();
+    });
+
     // -------------------------------------------------------------------------
     //
     // app methods
@@ -429,6 +434,14 @@
       });
     };
 
+    app.startup = function() {
+      if (!app.user) {
+        app.showSignInView();
+      } else {
+        app.showClientListView(app.user);
+      }
+    };
+
     window.onpopstate = function({state}) {
       if (state) {
         const {route} = state;
@@ -463,11 +476,6 @@
     //
     // -------------------------------------------------------------------------
     window.fms = app;
-
-    if (!app.user) {
-      app.showSignInView();
-    } else {
-      app.showClientListView(app.user);
-    }
+    app.startup();
   })(window);
 })();
