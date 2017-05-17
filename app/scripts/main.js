@@ -89,8 +89,8 @@
       views: {
         $signIn: $('#signin-view'),
         $clientList: $('#client-list-view'),
-        $newScreen: $('#new-screen-view'),
         $clientDetail: $('#client-detail-view'),
+        $editAssessment: $('#edit-assessment-view'),
       },
       clients: [],
     };
@@ -113,12 +113,12 @@
 
     $('#btn-add-screen').on('click', function(e) {
       e.preventDefault();
-      app.showNewScreenView();
+      app.showEditAssessmentView();
     });
 
     $('#btn-submit').on('click', function(e) {
       e.preventDefault();
-      app.saveNewScreen(app.user)
+      app.saveAssessment(app.user)
         .then(() => app.showClientListView(app.user))
         .catch((error) => console.error(`error saving new screen: ${error}`));
     });
@@ -168,16 +168,16 @@
           app.buildClientListView(clients);
           app.toggleViewOn(app.views.$clientList);
           window.history.pushState({
-            route: '/client-list',
-          }, 'FMS', '/client-list');
+            route: '/list',
+          }, 'FMS', '/list');
         });
     };
 
-    app.showNewScreenView = function() {
-      app.toggleViewOn(app.views.$newScreen);
+    app.showEditAssessmentView = function() {
+      app.toggleViewOn(app.views.$editAssessment);
       window.history.pushState({
-        route: '/new-screen',
-      }, 'FMS', '/new-screen');
+        route: '/edit',
+      }, 'FMS', '/edit');
     };
 
     app.showClientDetailView = function(clientId) {
@@ -627,7 +627,7 @@
         });
     };
 
-    app.saveNewScreen = function(user) {
+    app.saveAssessment = function(user) {
       return Promise.resolve(true);
     };
 
@@ -662,14 +662,14 @@
               app.showSignInView();
             }
             break;
-          case '/client-list':
+          case '/list':
             app.showClientListView(app.user);
             break;
-          case '/client-detail':
+          case '/detail':
             app.showClientDetailView(app.selectedClient);
             break;
-          case '/new-screen':
-            app.showNewScreenView();
+          case '/edit':
+            app.showEditAssessmentView();
             break;
           default:
             break;
