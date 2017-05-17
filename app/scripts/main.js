@@ -430,29 +430,31 @@
     };
 
     window.onpopstate = function({state}) {
-      const {route} = state;
+      if (state) {
+        const {route} = state;
 
-      switch (route) {
-        case '/':
-        case '/sign-in':
-          if (app.user) {
+        switch (route) {
+          case '/':
+          case '/sign-in':
+            if (app.user) {
+              app.showClientListView(app.user);
+            } else {
+              app.showSignInView();
+            }
+            break;
+          case '/client-list':
             app.showClientListView(app.user);
-          } else {
-            app.showSignInView();
-          }
-          break;
-        case '/client-list':
-          app.showClientListView(app.user);
-          break;
-        case '/client-detail':
-          app.showClientDetailView(app.selectedClient);
-          break;
-        case '/new-screen':
-          app.showNewScreenView();
-          break;
-        default:
-          break;
-      };
+            break;
+          case '/client-detail':
+            app.showClientDetailView(app.selectedClient);
+            break;
+          case '/new-screen':
+            app.showNewScreenView();
+            break;
+          default:
+            break;
+        };
+      }
     };
 
     // -------------------------------------------------------------------------
