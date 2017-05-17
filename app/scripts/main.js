@@ -87,7 +87,7 @@
         $newScreen: $('#new-screen-view'),
         $clientDetail: $('#client-detail-view'),
       },
-      clients: {},
+      clients: [],
       selectedClient: null,
     };
 
@@ -185,10 +185,234 @@
     };
 
     app.fetchClients = function(user) {
-      return Promise.resolve({});
+      const clients = [
+        {
+          id: '00005',
+          firstName: 'Peter',
+          lastName: 'Piper',
+          score: 10,
+          notes: 'peter piper notes...',
+          assessments: [
+            {
+              date: '05-16-2017',
+              screens: {
+                ds: {
+                  scores: {
+                    raw: 1,
+                    final: 1,
+                  },
+                  notes: 'deep squat note...',
+                },
+                hs: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'hurdle step note...',
+                },
+                il: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'inline lunge note...',
+                },
+                sm: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'shoulder mobility note...',
+                },
+                sct: {
+                  scores: {
+                    rawLeft: '-',
+                    rawRight: '+',
+                    final: '+',
+                  },
+                  notes: 'shoulder clearing test note...',
+                },
+                aslr: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'active straight leg raise note...',
+                },
+                tsp: {
+                  scores: {
+                    raw: 1,
+                    final: 1,
+                  },
+                  notes: 'trunk stability push-ups note...',
+                },
+                ect: {
+                  scores: {
+                    raw: '-',
+                    final: '-',
+                  },
+                  notes: 'extension clearning test note...',
+                },
+                rs: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'rotary stability note...',
+                },
+                fct: {
+                  scores: {
+                    raw: '-',
+                    final: '-',
+                  },
+                  notes: 'flexion clearing test...',
+                },
+              },
+            },
+          ],
+        },
+        {
+          id: '00006',
+          firstName: 'Hans',
+          lastName: 'Gruber',
+          score: 14,
+          notes: 'hans gruber notes...',
+          assessments: [
+            {
+              date: '05-16-2017',
+              screens: {
+                ds: {
+                  scores: {
+                    raw: 1,
+                    final: 1,
+                  },
+                  notes: 'deep squat note...',
+                },
+                hs: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'hurdle step note...',
+                },
+                il: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'inline lunge note...',
+                },
+                sm: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'shoulder mobility note...',
+                },
+                sct: {
+                  scores: {
+                    rawLeft: '-',
+                    rawRight: '+',
+                    final: '+',
+                  },
+                  notes: 'shoulder clearing test note...',
+                },
+                aslr: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'active straight leg raise note...',
+                },
+                tsp: {
+                  scores: {
+                    raw: 1,
+                    final: 1,
+                  },
+                  notes: 'trunk stability push-ups note...',
+                },
+                ect: {
+                  scores: {
+                    raw: '-',
+                    final: '-',
+                  },
+                  notes: 'extension clearning test note...',
+                },
+                rs: {
+                  scores: {
+                    rawLeft: 1,
+                    rawRight: 2,
+                    final: 1,
+                  },
+                  notes: 'rotary stability note...',
+                },
+                fct: {
+                  scores: {
+                    raw: '-',
+                    final: '-',
+                  },
+                  notes: 'flexion clearing test...',
+                },
+              },
+            },
+          ],
+        },
+      ];
+
+      if (!app.clients.length) {
+        // no clients yet, so
+        // ...go fetch (which is an async process)
+        // ...set app state
+        app.clients = clients;
+        return Promise.resolve(clients);
+      }
+
+      return Promise.resolve(app.clients);
     };
 
-    app.buildClientListView = function(clients) {
+    app.buildClientListView = function(clients = []) {
+      let clientsToAdd;
+      const $clientList = app.views.$clientList.find('.row');
+
+      // determine clients to add to ui. initially, its all clients. then it's
+      // clients added via new screens submitted. basically, we sync ui w/ app
+      // state.
+      if ($clientList.children().length) {
+        const clientsById = {};
+
+        $clientList.children().each(function(idx, child) {
+          let clientId = $(child).find('.card-panel').data('client-id');
+
+          if (clientId) {
+            clientsById[clientId] = true;
+          }
+        });
+        clientsToAdd = clients.filter((client) => !clientsById[client.id]);
+      } else {
+        clientsToAdd = clients.slice();
+      }
+
+      clientsToAdd
+        .map((client) => {
+          const $clone = $('.client-template').clone(true);
+          $clone.removeClass('client-template hide');
+          $clone.find('.client-name').text(client.firstName);
+          $clone.find('.client-score').text(client.score);
+          $clone.find('.card-panel').data('client-id', client.id);
+          return $clone;
+        })
+        .forEach(($client) => {
+          $clientList.append($client);
+        });
     };
 
     app.saveNewScreen = function(user) {
