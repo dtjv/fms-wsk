@@ -105,11 +105,11 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s6">
-                          <input id="first-name-edit" type="text" class="validate">
+                          <input id="first-name-edit" name="client-first-name" type="text" class="validate">
                           <label for="first-name-edit">First Name</label>
                         </div>
                         <div class="input-field col s6">
-                          <input id="last-name-edit" type="text" class="validate">
+                          <input id="last-name-edit" name="client-last-name" type="text" class="validate">
                           <label for="last-name-edit">Last Name</label>
                         </div>
                       </div>
@@ -117,7 +117,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="client-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="client-notes-edit" name="client-notes" class="materialize-textarea"></textarea>
                           <label for="client-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -130,11 +130,11 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Deep Squat
-                    <span id="ds-score-edit" class="right">0</span>
+                    <span id="ds-score-edit" class="right"></span>
                   </div>
                   <div class="row">
                     <div class="input-field col s4 offset-s4">
-                      <select id="ds-raw-score-edit">
+                      <select id="ds-raw-score-edit" name="ds-raw-score">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -145,7 +145,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="ds-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="ds-notes-edit" name="ds-notes" class="materialize-textarea"></textarea>
                           <label for="ds-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -158,11 +158,11 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Hurdle Step
-                    <span id="hs-score-edit" class="right">1</span>
+                    <span id="hs-score-edit" class="right"></span>
                   </div>
                   <div class="row">
                     <div class="input-field col s4 offset-s2">
-                      <select id="hs-raw-score-left-edit">
+                      <select id="hs-raw-score-left-edit" name="hs-raw-score-left">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -172,7 +172,7 @@
                       <label>Left</label>
                     </div>
                     <div class="input-field col s4">
-                      <select id="hs-raw-score-right-edit">
+                      <select id="hs-raw-score-right-edit" name="hs-raw-score-right">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -184,7 +184,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="hs-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="hs-notes-edit" name="hs-notes" class="materialize-textarea"></textarea>
                           <label for="hs-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -197,11 +197,11 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Inline Lunge
-                    <span id="il-score-edit" class="right">1</span>
+                    <span id="il-score-edit" class="right"></span>
                   </div>
                   <div class="row">
                     <div class="input-field col s4 offset-s2">
-                      <select id="il-raw-score-left-edit">
+                      <select id="il-raw-score-left-edit" name="il-raw-score-left">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -211,7 +211,7 @@
                       <label>Left</label>
                     </div>
                     <div class="input-field col s4">
-                      <select id="il-raw-score-right-edit">
+                      <select id="il-raw-score-right-edit" name="il-raw-score-right">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -223,7 +223,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="il-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="il-notes-edit" name="il-notes" class="materialize-textarea"></textarea>
                           <label for="il-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -240,7 +240,7 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s4 offset-s2">
-                      <select id="sm-raw-score-left-edit">
+                      <select id="sm-raw-score-left-edit" name="sm-raw-score-left">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -250,7 +250,7 @@
                       <label for="sm-raw-score-left-edit">Left</label>
                     </div>
                     <div class="input-field col s4">
-                      <select id="sm-raw-score-right-edit">
+                      <select id="sm-raw-score-right-edit" name="sm-raw-score-right">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -262,7 +262,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="sm-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="sm-notes-edit" name="sm-notes" class="materialize-textarea"></textarea>
                           <label for="sm-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -275,17 +275,18 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Shoulder Clearing Test
-                    <i id="sct-score-edit" class="material-icons icon--plus right">add</i>
+                    <!-- add icon__plus or icon__minus and add or remove -->
+                    <i id="sct-score-edit" class="material-icons right"></i>
                   </div>
                   <div class="row">
                     <div class="screen-label-edit right-align col s3 offset-s1">
                       <span>Left</span>
                     </div>
                     <div class="col s6 offset-s1">
-                      <div class="switch">
+                      <div id="sct-raw-score-left-edit" class="switch">
                         <label>
                           -
-                          <input type="checkbox">
+                          <input name="sct-raw-score-left" type="checkbox">
                           <span class="lever"></span>
                           +
                         </label>
@@ -297,10 +298,10 @@
                       <span>Right</span>
                     </div>
                     <div class="col s6 offset-s1">
-                      <div class="switch">
+                      <div id="sct-raw-score-right-edit" class="switch">
                         <label>
                           -
-                          <input type="checkbox">
+                          <input name="sct-raw-score-right" type="checkbox">
                           <span class="lever"></span>
                           +
                         </label>
@@ -311,7 +312,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="sct-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="sct-notes-edit" name="sct-notes" class="materialize-textarea"></textarea>
                           <label for="sct-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -324,11 +325,11 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Active Straight Leg Raise
-                    <span id="aslr-score-edit" class="right">2</span>
+                    <span id="aslr-score-edit" class="right"></span>
                   </div>
                   <div class="row">
                     <div class="input-field col s4 offset-s2">
-                      <select id="aslr-raw-score-left-edit">
+                      <select id="aslr-raw-score-left-edit" name="aslr-raw-score-left">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -338,7 +339,7 @@
                       <label for="aslr-raw-score-left-edit">Left</label>
                     </div>
                     <div class="input-field col s4">
-                      <select id="aslr-raw-score-right-edit">
+                      <select id="aslr-raw-score-right-edit" name="aslr-raw-score-right">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -350,7 +351,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="aslr-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="aslr-notes-edit" name="aslr-notes" class="materialize-textarea"></textarea>
                           <label for="aslr-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -363,11 +364,11 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Trunk Stability Pushup
-                    <span id="tsp-score-edit" class="right">2</span>
+                    <span id="tsp-score-edit" class="right"></span>
                   </div>
                   <div class="row">
                     <div class="input-field col s4 offset-s4">
-                      <select id="tsp-raw-score-edit">
+                      <select id="tsp-raw-score-edit" name="tsp-raw-score">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -378,7 +379,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="tsp-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="tsp-notes-edit" name="tsp-notes" class="materialize-textarea"></textarea>
                           <label for="tsp-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -391,14 +392,14 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Extension Clearing Test
-                    <i id="ect-score-edit" class="material-icons icon--plus right">add</i>
+                    <i id="ect-score-edit" class="material-icons right"></i>
                   </div>
                   <div class="row">
                     <div class="col s12 center-align">
-                      <div class="switch">
+                      <div id="ect-raw-score-edit" class="switch">
                         <label>
                           -
-                          <input type="checkbox">
+                          <input type="checkbox" name="ect-raw-score">
                           <span class="lever"></span>
                           +
                         </label>
@@ -409,7 +410,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="ect-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="ect-notes-edit" name="ect-notes" class="materialize-textarea"></textarea>
                           <label for="ect-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -422,11 +423,11 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Rotary Stability
-                    <span id="rs-score-edit" class="right">2</span>
+                    <span id="rs-score-edit" class="right"></span>
                   </div>
                   <div class="row">
                     <div class="input-field col s4 offset-s2">
-                      <select id="rs-raw-score-left-edit">
+                      <select id="rs-raw-score-left-edit" name="rs-raw-score-left">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -436,7 +437,7 @@
                       <label for="rs-raw-score-left-edit">Left</label>
                     </div>
                     <div class="input-field col s4">
-                      <select id="rs-raw-score-right-edit">
+                      <select id="rs-raw-score-right-edit" name="rs-raw-score-right">
                         <option value="" disabled selected>Raw Score</option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -448,7 +449,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="rs-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="rs-notes-edit" name="rs-notes" class="materialize-textarea"></textarea>
                           <label for="rs-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -461,14 +462,14 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Flexion Clearing Test
-                    <i id="fct-score-edit" class="material-icons icon--plus right">remove</i>
+                    <i id="fct-score-edit" class="material-icons right"></i>
                   </div>
                   <div class="row">
                     <div class="col s12 center-align">
-                      <div class="switch">
+                      <div id="fct-raw-score-edit" class="switch">
                         <label>
                           -
-                          <input type="checkbox">
+                          <input type="checkbox" name="fct-raw-score">
                           <span class="lever"></span>
                           +
                         </label>
@@ -479,7 +480,7 @@
                     <div class="col s12">
                       <div class="row">
                         <div class="input-field col s12">
-                          <textarea id="fct-notes-edit" class="materialize-textarea"></textarea>
+                          <textarea id="fct-notes-edit" name="fct-notes" class="materialize-textarea"></textarea>
                           <label for="fct-notes-edit">Notes</label>
                         </div>
                       </div>
@@ -488,7 +489,6 @@
                 </div>
               </div>
               <div class="row center-align btn-wrapper">
-                <!-- change btn-submit-screen class name... not generic enough -->
                 <button id="btn-submit" class="btn-large green waves-effect waves-light" type="submit" name=""> SUBMIT </button>
                 <button id="btn-cancel" class="btn-large red waves-effect waves-light" type="submit" name=""> CANCEL </button>
               </div>

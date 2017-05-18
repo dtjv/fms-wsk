@@ -118,7 +118,14 @@
 
     $('#btn-submit').on('click', function(e) {
       e.preventDefault();
-      app.saveAssessment(app.user)
+
+      // TODO - this pulls only fields with values
+      const fieldsByName = {};
+      $.each($('form').serializeArray(), function(i, {name, value}) {
+        fieldsByName[name] = value;
+      });
+
+      app.saveAssessment(app.user, fieldsByName)
         .then(() => app.showClientListView(app.user))
         .catch((error) => console.error(`error saving new screen: ${error}`));
     });
@@ -174,6 +181,7 @@
     };
 
     app.showEditAssessmentView = function() {
+      $('form')[0].reset();
       app.toggleViewOn(app.views.$editAssessment);
       window.history.pushState({
         route: '/edit',
