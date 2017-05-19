@@ -150,6 +150,17 @@
       app.showClientListView(app.user);
     });
 
+    $('#btn-edit-detail').on('click', function(e) {
+      e.preventDefault();
+      const clientId = app
+        .views
+        .$clientDetail
+        .find('#client-read')
+        .data('client-id');
+
+      app.showEditAssessmentView(clientId);
+    });
+
     $('.brand-logo').on('click', function(e) {
       e.preventDefault();
       app.startup();
@@ -180,8 +191,13 @@
         });
     };
 
-    app.showEditAssessmentView = function() {
+    app.showEditAssessmentView = function(clientId) {
       $('form')[0].reset();
+
+      if (clientId) {
+        console.log(`load client id: ${clientId}`);
+      }
+
       app.toggleViewOn(app.views.$editAssessment);
       window.history.pushState({
         route: '/edit',
@@ -193,8 +209,8 @@
       app.buildClientDetailView(client[0]);
       app.toggleViewOn(app.views.$clientDetail);
       window.history.pushState({
-        route: '/client-detail',
-      }, 'FMS', '/client-detail');
+        route: '/detail',
+      }, 'FMS', '/detail');
     };
 
     app.signIn = function() {
@@ -435,6 +451,8 @@
 
     app.buildClientDetailView = function(client) {
       const populateClient = function($el) {
+        $el
+          .data('client-id', client.id);
         $el
           .find('#client-name-read')
           .text(`${client.firstName} ${client.lastName}`);
