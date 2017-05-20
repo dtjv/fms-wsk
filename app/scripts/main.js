@@ -81,7 +81,6 @@
 
     const PLUS = '+';
     const ICON_PLUS = 'add';
-    // const MINUS = '-';
     const ICON_MINUS = 'remove';
 
     const app = {
@@ -93,7 +92,12 @@
         $editAssessment: $('#edit-assessment-view'),
       },
       clients: [],
+      firebase: {
+        auth: firebase.auth(),
+        db: firebase.database(),
+      },
     };
+
 
     // -------------------------------------------------------------------------
     //
@@ -106,9 +110,10 @@
     // -------------------------------------------------------------------------
     $('.btn-google').on('click', function(e) {
       e.preventDefault();
-      app.signIn()
-        .then((user) => app.showClientListView(app.user))
-        .catch((error) => console.error(`error during signin: ${error}`));
+      app.signIn();
+      // app.signIn()
+      //   .then((user) => app.showClientListView(app.user))
+      //   .catch((error) => console.error(`error during signin: ${error}`));
     });
 
     $('#btn-add-screen').on('click', function(e) {
@@ -166,11 +171,43 @@
       app.startup();
     });
 
+    $('.logout').on('click', function(e) {
+      e.preventDefault();
+      app.signOut();
+    });
+
     // -------------------------------------------------------------------------
     //
     // app methods
     //
     // -------------------------------------------------------------------------
+
+    app.onAuthStateChanged = function(user) {
+      if (user) {
+        app.user = user.displayName;
+        app.showClientListView(app.user);
+        $('.logout').removeClass('hide');
+      } else {
+        app.user = null;
+        app.showSignInView();
+        $('.logout').addClass('hide');
+      }
+    };
+
+    // due to the way i've declared app.onAuthStateChanged, this line needs to
+    // be AFTER the declaration.
+    app.firebase.auth.onAuthStateChanged(app.onAuthStateChanged);
+
+    app.signIn = function() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      app.firebase.auth.signInWithPopup(provider);
+      // app.user = 'David';
+      // return Promise.resolve(app.user);
+    };
+
+    app.signOut = function() {
+      app.firebase.auth.signOut();
+    };
 
     app.showSignInView = function() {
       app.toggleViewOn(app.views.$signIn);
@@ -211,11 +248,6 @@
       window.history.pushState({
         route: '/detail',
       }, 'FMS', '/detail');
-    };
-
-    app.signIn = function() {
-      app.user = 'David';
-      return Promise.resolve(app.user);
     };
 
     app.fetchClients = function(user) {
