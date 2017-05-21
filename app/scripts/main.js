@@ -98,16 +98,12 @@
       },
     };
 
-
     // -------------------------------------------------------------------------
     //
     // register event listeners
     //
-    // ideally...
-    //
-    // when someone clicks a button, the application state should change. then
-    // the app re-renders based on the new app state.
     // -------------------------------------------------------------------------
+
     $('.btn-google').on('click', function(e) {
       e.preventDefault();
       app.signIn();
@@ -120,14 +116,75 @@
 
     $('#btn-submit').on('click', function(e) {
       e.preventDefault();
-
-      // TODO - this pulls only fields with values
       const fieldsByName = {};
+
       $.each($('form').serializeArray(), function(i, {name, value}) {
         fieldsByName[name] = value;
       });
 
-      app.saveAssessment(app.user, fieldsByName)
+      // validate fields
+      if (!fieldsByName['client-first-name']) {
+        return Materialize
+          .toast('Please provide client\'s name.', 2000, '', () => {
+            $('#first-name-edit').focus();
+          });
+      }
+
+      // if (!fieldsByName['hs-raw-score-left'] &&
+      //      fieldsByName['hs-raw-score-right']) {
+      //   return Materialize
+      //     .toast('Please provide LEFT side score for Hurdle Step.',
+      //       2000, '', () => {
+      //       $('#hs-raw-score-left-edit').parent().find('input').focus();
+      //     });
+      // }
+
+      // if (fieldsByName['hs-raw-score-left'] &&
+      //     !fieldsByName['hs-raw-score-right']) {
+      //   return Materialize
+      //     .toast('Please provide RIGHT side score for Hurdle Step.',
+      //       2000, '', () => {
+      //       $('#hs-raw-score-right-edit').parent().find('input').focus();
+      //     });
+      // }
+
+      // if (!fieldsByName['il-raw-score-left'] &&
+      //      fieldsByName['il-raw-score-right']) {
+      //   return Materialize
+      //     .toast('Please provide LEFT side score for Inline Lunge.',
+      //       2000, '', () => {
+      //       $('#il-raw-score-left-edit').parent().find('input').focus();
+      //     });
+      // }
+
+      // if (fieldsByName['il-raw-score-left'] &&
+      //     !fieldsByName['il-raw-score-right']) {
+      //   return Materialize
+      //     .toast('Please provide RIGHT side score for Hurdle Step.',
+      //       2000, '', () => {
+      //       $('#il-raw-score-right-edit').parent().find('input').focus();
+      //     });
+      // }
+
+      // if (!fieldsByName['sm-raw-score-left'] &&
+      //      fieldsByName['sm-raw-score-right']) {
+      //   return Materialize
+      //     .toast('Please provide LEFT side score for Shoulder Mobility.',
+      //       2000, '', () => {
+      //       $('#sm-raw-score-left-edit').parent().find('input').focus();
+      //     });
+      // }
+
+      // if (fieldsByName['sm-raw-score-left'] &&
+      //     !fieldsByName['sm-raw-score-right']) {
+      //   return Materialize
+      //     .toast('Please provide RIGHT side score for Shoulder Mobility.',
+      //       2000, '', () => {
+      //       $('#sm-raw-score-right-edit').parent().find('input').focus();
+      //     });
+      // }
+
+      app.saveAssessment(app.calculateFinalScores(fieldsByName))
         .then(() => app.showClientListView(app.user))
         .catch((error) => console.error(`error saving new screen: ${error}`));
     });
@@ -173,6 +230,32 @@
       app.signOut();
     });
 
+    $('#ds-raw-score-edit').on('change', function(e) {
+      const score = $(e.target).val();
+      $('#ds-score-edit').val(score);
+      $('#ds-score').text(score);
+    });
+
+    $('#hs-edit select').on('change', function(e) {
+      const rawScoreLeft = $('#hs-raw-score-left-edit').val();
+      const rawScoreRight = $('#hs-raw-score-right-edit').val();
+
+      let score;
+
+      if (rawScoreLeft !== null) {
+        score = (rawScoreRight !== null)
+                ? Math.min(rawScoreLeft, rawScoreRight)
+                : rawScoreLeft;
+      } else if (rawScoreRight !== null) {
+        score = rawScoreRight;
+      }
+
+      if (score !== null) {
+        $('#hs-score-edit').val(score);
+        $('#hs-score').text(score);
+      }
+    });
+
     // -------------------------------------------------------------------------
     //
     // app methods
@@ -190,7 +273,6 @@
         $('.logout').addClass('hide');
       }
     };
-
 
     app.signIn = function() {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -677,109 +759,109 @@
         });
     };
 
-    // the assessment should be passed in
-    app.saveAssessment = function() {
-      const clientsRef = app.firebase.db.ref('clients');
-      const assessmentsRef = app.firebase.db.ref('assessments');
+    app.calculateFinalScores = function(fields) {
+      return fields;
+    };
 
-      // is this a new client or existing?
+    app.saveAssessment = function(fields) {
+      console.log(fields);
+      // const clientsRef = app.firebase.db.ref('clients');
+      // const assessmentsRef = app.firebase.db.ref('assessments');
 
-      // if client data does NOT have an id, then it's new
-      const client = {
-        firstName: 'David',
-        lastName: 'Valles',
-        score: 12,
-        notes: 'what a pain in the ass client!',
-        trainerId: app.firebase.auth.currentUser.uid,
-      };
-      const assessment = {
-        date: '05-16-2017',
-        screens: {
-          ds: {
-            scores: {
-              raw: 1,
-              final: 1,
-            },
-            notes: 'deep squat note...',
-          },
-          hs: {
-            scores: {
-              rawLeft: 1,
-              rawRight: 2,
-              final: 1,
-            },
-            notes: 'hurdle step note...',
-          },
-          il: {
-            scores: {
-              rawLeft: 1,
-              rawRight: 2,
-              final: 1,
-            },
-            notes: 'inline lunge note...',
-          },
-          sm: {
-            scores: {
-              rawLeft: 1,
-              rawRight: 2,
-              final: 1,
-            },
-            notes: 'shoulder mobility note...',
-          },
-          sct: {
-            scores: {
-              rawLeft: '-',
-              rawRight: '+',
-              final: '+',
-            },
-            notes: 'shoulder clearing test note...',
-          },
-          aslr: {
-            scores: {
-              rawLeft: 1,
-              rawRight: 2,
-              final: 1,
-            },
-            notes: 'active straight leg raise note...',
-          },
-          tsp: {
-            scores: {
-              raw: 1,
-              final: 1,
-            },
-            notes: 'trunk stability push-ups note...',
-          },
-          ect: {
-            scores: {
-              raw: '-',
-              final: '-',
-            },
-            notes: 'extension clearning test note...',
-          },
-          rs: {
-            scores: {
-              rawLeft: 1,
-              rawRight: 2,
-              final: 1,
-            },
-            notes: 'rotary stability note...',
-          },
-          fct: {
-            scores: {
-              raw: '-',
-              final: '-',
-            },
-            notes: 'flexion clearing test...',
-          },
-        },
-      };
+      // const client = {
+      //   firstName: fields['client-first-name'],
+      //   lastName: fields['client-last-name'],
+      //   score: 12,
+      //   notes: 'what a pain in the ass client!',
+      //   trainerId: app.firebase.auth.currentUser.uid,
+      // };
+      // const assessment = {
+      //   date: '05-16-2017',
+      //   screens: {
+      //     ds: {
+      //       scores: {
+      //         raw: 1,
+      //         final: 1,
+      //       },
+      //       notes: 'deep squat note...',
+      //     },
+      //     hs: {
+      //       scores: {
+      //         rawLeft: 1,
+      //         rawRight: 2,
+      //         final: 1,
+      //       },
+      //       notes: 'hurdle step note...',
+      //     },
+      //     il: {
+      //       scores: {
+      //         rawLeft: 1,
+      //         rawRight: 2,
+      //         final: 1,
+      //       },
+      //       notes: 'inline lunge note...',
+      //     },
+      //     sm: {
+      //       scores: {
+      //         rawLeft: 1,
+      //         rawRight: 2,
+      //         final: 1,
+      //       },
+      //       notes: 'shoulder mobility note...',
+      //     },
+      //     sct: {
+      //       scores: {
+      //         rawLeft: '-',
+      //         rawRight: '+',
+      //         final: '+',
+      //       },
+      //       notes: 'shoulder clearing test note...',
+      //     },
+      //     aslr: {
+      //       scores: {
+      //         rawLeft: 1,
+      //         rawRight: 2,
+      //         final: 1,
+      //       },
+      //       notes: 'active straight leg raise note...',
+      //     },
+      //     tsp: {
+      //       scores: {
+      //         raw: 1,
+      //         final: 1,
+      //       },
+      //       notes: 'trunk stability push-ups note...',
+      //     },
+      //     ect: {
+      //       scores: {
+      //         raw: '-',
+      //         final: '-',
+      //       },
+      //       notes: 'extension clearning test note...',
+      //     },
+      //     rs: {
+      //       scores: {
+      //         rawLeft: 1,
+      //         rawRight: 2,
+      //         final: 1,
+      //       },
+      //       notes: 'rotary stability note...',
+      //     },
+      //     fct: {
+      //       scores: {
+      //         raw: '-',
+      //         final: '-',
+      //       },
+      //       notes: 'flexion clearing test...',
+      //     },
+      //   },
+      // };
 
-      if (client.id) {
-        // update
-      } else {
-        const clientKey = clientsRef.push(client).key;
-        assessmentsRef.child(`/${clientKey}/`).push(assessment);
-      }
+      // if (client.id) {
+      // } else {
+      //   const clientKey = clientsRef.push(client).key;
+      //   assessmentsRef.child(`/${clientKey}/`).push(assessment);
+      // }
 
       return Promise.resolve(true);
     };
@@ -837,6 +919,7 @@
     // startup
     //
     // -------------------------------------------------------------------------
+
     window.fms = app;
     app.startup();
   })(window);
