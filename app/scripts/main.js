@@ -111,9 +111,6 @@
     $('.btn-google').on('click', function(e) {
       e.preventDefault();
       app.signIn();
-      // app.signIn()
-      //   .then((user) => app.showClientListView(app.user))
-      //   .catch((error) => console.error(`error during signin: ${error}`));
     });
 
     $('#btn-add-screen').on('click', function(e) {
@@ -194,15 +191,10 @@
       }
     };
 
-    // due to the way i've declared app.onAuthStateChanged, this line needs to
-    // be AFTER the declaration.
-    app.firebase.auth.onAuthStateChanged(app.onAuthStateChanged);
 
     app.signIn = function() {
       const provider = new firebase.auth.GoogleAuthProvider();
       app.firebase.auth.signInWithPopup(provider);
-      // app.user = 'David';
-      // return Promise.resolve(app.user);
     };
 
     app.signOut = function() {
@@ -685,7 +677,110 @@
         });
     };
 
-    app.saveAssessment = function(user) {
+    // the assessment should be passed in
+    app.saveAssessment = function() {
+      const clientsRef = app.firebase.db.ref('clients');
+      const assessmentsRef = app.firebase.db.ref('assessments');
+
+      // is this a new client or existing?
+
+      // if client data does NOT have an id, then it's new
+      const client = {
+        firstName: 'David',
+        lastName: 'Valles',
+        score: 12,
+        notes: 'what a pain in the ass client!',
+        trainerId: app.firebase.auth.currentUser.uid,
+      };
+      const assessment = {
+        date: '05-16-2017',
+        screens: {
+          ds: {
+            scores: {
+              raw: 1,
+              final: 1,
+            },
+            notes: 'deep squat note...',
+          },
+          hs: {
+            scores: {
+              rawLeft: 1,
+              rawRight: 2,
+              final: 1,
+            },
+            notes: 'hurdle step note...',
+          },
+          il: {
+            scores: {
+              rawLeft: 1,
+              rawRight: 2,
+              final: 1,
+            },
+            notes: 'inline lunge note...',
+          },
+          sm: {
+            scores: {
+              rawLeft: 1,
+              rawRight: 2,
+              final: 1,
+            },
+            notes: 'shoulder mobility note...',
+          },
+          sct: {
+            scores: {
+              rawLeft: '-',
+              rawRight: '+',
+              final: '+',
+            },
+            notes: 'shoulder clearing test note...',
+          },
+          aslr: {
+            scores: {
+              rawLeft: 1,
+              rawRight: 2,
+              final: 1,
+            },
+            notes: 'active straight leg raise note...',
+          },
+          tsp: {
+            scores: {
+              raw: 1,
+              final: 1,
+            },
+            notes: 'trunk stability push-ups note...',
+          },
+          ect: {
+            scores: {
+              raw: '-',
+              final: '-',
+            },
+            notes: 'extension clearning test note...',
+          },
+          rs: {
+            scores: {
+              rawLeft: 1,
+              rawRight: 2,
+              final: 1,
+            },
+            notes: 'rotary stability note...',
+          },
+          fct: {
+            scores: {
+              raw: '-',
+              final: '-',
+            },
+            notes: 'flexion clearing test...',
+          },
+        },
+      };
+
+      if (client.id) {
+        // update
+      } else {
+        const clientKey = clientsRef.push(client).key;
+        assessmentsRef.child(`/${clientKey}/`).push(assessment);
+      }
+
       return Promise.resolve(true);
     };
 
@@ -705,6 +800,8 @@
       } else {
         app.showClientListView(app.user);
       }
+
+      app.firebase.auth.onAuthStateChanged(app.onAuthStateChanged);
     };
 
     window.onpopstate = function({state}) {
