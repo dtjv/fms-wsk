@@ -80,6 +80,7 @@
     'use strict';
 
     const PLUS = '+';
+    const MINUS = '-';
     const ICON_PLUS = 'add';
     const ICON_MINUS = 'remove';
 
@@ -253,6 +254,154 @@
       if (score !== null) {
         $('#hs-score-edit').val(score);
         $('#hs-score').text(score);
+      }
+    });
+
+    $('#il-edit select').on('change', function(e) {
+      const rawScoreLeft = $('#il-raw-score-left-edit').val();
+      const rawScoreRight = $('#il-raw-score-right-edit').val();
+
+      let score;
+
+      if (rawScoreLeft !== null) {
+        score = (rawScoreRight !== null)
+                ? Math.min(rawScoreLeft, rawScoreRight)
+                : rawScoreLeft;
+      } else if (rawScoreRight !== null) {
+        score = rawScoreRight;
+      }
+
+      if (score !== null) {
+        $('#il-score-edit').val(score);
+        $('#il-score').text(score);
+      }
+    });
+
+    $('#sm-edit select').on('change', function(e) {
+      const rawScoreLeft = $('#sm-raw-score-left-edit').val();
+      const rawScoreRight = $('#sm-raw-score-right-edit').val();
+
+      let score;
+
+      if (rawScoreLeft !== null) {
+        score = (rawScoreRight !== null)
+                ? Math.min(rawScoreLeft, rawScoreRight)
+                : rawScoreLeft;
+      } else if (rawScoreRight !== null) {
+        score = rawScoreRight;
+      }
+
+      if (score !== null) {
+        $('#sm-score-edit').val(score);
+        $('#sm-score').text(score);
+      }
+    });
+
+    $('#sct-raw-score-left-edit input').on('change', function() {
+      const $rawScoreLeft = $('#sct-raw-score-left-edit input');
+      const $rawScoreRight = $('#sct-raw-score-right-edit input');
+      const $scoreShow = $('#sct-score');
+      const $scoreField = $('#sct-score-edit');
+
+      if ($rawScoreLeft.is(':checked')) {
+        $scoreShow.text('add');
+        $scoreShow.addClass(ICON_PLUS);
+        $scoreShow.removeClass(ICON_MINUS);
+        $scoreField.val(PLUS);
+      } else if (!$rawScoreRight.is(':checked')) {
+        $scoreShow.text('remove');
+        $scoreShow.addClass(ICON_MINUS);
+        $scoreShow.removeClass(ICON_PLUS);
+        $scoreField.val(MINUS);
+      }
+    });
+
+    $('#sct-raw-score-right-edit input').on('change', function() {
+      const $rawScoreLeft = $('#sct-raw-score-left-edit input');
+      const $rawScoreRight = $('#sct-raw-score-right-edit input');
+      const $scoreShow = $('#sct-score');
+      const $scoreField = $('#sct-score-edit');
+
+      if ($rawScoreRight.is(':checked')) {
+        $scoreShow.text('add');
+        $scoreField.val(PLUS);
+      } else if (!$rawScoreLeft.is(':checked')) {
+        $scoreShow.text('remove');
+        $scoreField.val(MINUS);
+      }
+    });
+
+    $('#aslr-edit select').on('change', function(e) {
+      const rawScoreLeft = $('#aslr-raw-score-left-edit').val();
+      const rawScoreRight = $('#aslr-raw-score-right-edit').val();
+
+      let score;
+
+      if (rawScoreLeft !== null) {
+        score = (rawScoreRight !== null)
+                ? Math.min(rawScoreLeft, rawScoreRight)
+                : rawScoreLeft;
+      } else if (rawScoreRight !== null) {
+        score = rawScoreRight;
+      }
+
+      if (score !== null) {
+        $('#aslr-score-edit').val(score);
+        $('#aslr-score').text(score);
+      }
+    });
+
+    $('#tsp-raw-score-edit').on('change', function(e) {
+      const score = $(e.target).val();
+      $('#tsp-score-edit').val(score);
+      $('#tsp-score').text(score);
+    });
+
+    $('#ect-raw-score-edit input').on('change', function(e) {
+      const $rawScore = $(e.target);
+      const $scoreShow = $('#ect-score');
+      const $scoreField = $('#ect-score-edit');
+
+      if ($rawScore.is(':checked')) {
+        $scoreShow.text('add');
+        $scoreField.val(PLUS);
+      } else {
+        $scoreShow.text('remove');
+        $scoreField.val(MINUS);
+      }
+    });
+
+    $('#rs-edit select').on('change', function(e) {
+      const rawScoreLeft = $('#rs-raw-score-left-edit').val();
+      const rawScoreRight = $('#rs-raw-score-right-edit').val();
+
+      let score;
+
+      if (rawScoreLeft !== null) {
+        score = (rawScoreRight !== null)
+                ? Math.min(rawScoreLeft, rawScoreRight)
+                : rawScoreLeft;
+      } else if (rawScoreRight !== null) {
+        score = rawScoreRight;
+      }
+
+      if (score !== null) {
+        $('#rs-score-edit').val(score);
+        $('#rs-score').text(score);
+      }
+    });
+
+    $('#fct-raw-score-edit input').on('change', function(e) {
+      const $rawScore = $(e.target);
+      const $scoreShow = $('#fct-score');
+      const $scoreField = $('#fct-score-edit');
+
+      if ($rawScore.is(':checked')) {
+        $scoreShow.text('add');
+        $scoreField.val(PLUS);
+      } else {
+        $scoreShow.text('remove');
+        $scoreField.val(MINUS);
       }
     });
 
