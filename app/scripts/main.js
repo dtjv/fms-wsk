@@ -92,7 +92,10 @@
         $clientDetail: $('#client-detail-view'),
         $editAssessment: $('#edit-assessment-view'),
       },
-      clients: [],
+      clients: null,
+      refs: {
+        clients: null,
+      },
       firebase: {
         auth: firebase.auth(),
         db: firebase.database(),
@@ -104,7 +107,6 @@
     // register event listeners
     //
     // -------------------------------------------------------------------------
-
     $('.btn-google').on('click', function(e) {
       e.preventDefault();
       app.signIn();
@@ -117,77 +119,32 @@
 
     $('#btn-submit').on('click', function(e) {
       e.preventDefault();
-      const fieldsByName = {};
+      const fields = {};
 
       $.each($('form').serializeArray(), function(i, {name, value}) {
-        fieldsByName[name] = value;
+        fields[name] = value;
       });
 
       // validate fields
-      if (!fieldsByName['client-first-name']) {
+      if (!fields['client-first-name']) {
         return Materialize
-          .toast('Please provide client\'s name.', 2000, '', () => {
+          .toast('Please provide client\'s first name.', 2000, '', () => {
             $('#first-name-edit').focus();
           });
       }
 
-      // if (!fieldsByName['hs-raw-score-left'] &&
-      //      fieldsByName['hs-raw-score-right']) {
-      //   return Materialize
-      //     .toast('Please provide LEFT side score for Hurdle Step.',
-      //       2000, '', () => {
-      //       $('#hs-raw-score-left-edit').parent().find('input').focus();
-      //     });
-      // }
+      if (!fields['client-last-name']) {
+        return Materialize
+          .toast('Please provide client\'s last name.', 2000, '', () => {
+            $('#last-name-edit').focus();
+          });
+      }
 
-      // if (fieldsByName['hs-raw-score-left'] &&
-      //     !fieldsByName['hs-raw-score-right']) {
-      //   return Materialize
-      //     .toast('Please provide RIGHT side score for Hurdle Step.',
-      //       2000, '', () => {
-      //       $('#hs-raw-score-right-edit').parent().find('input').focus();
-      //     });
-      // }
+      fields['client-score'] = app.calculateFinalScore(fields);
 
-      // if (!fieldsByName['il-raw-score-left'] &&
-      //      fieldsByName['il-raw-score-right']) {
-      //   return Materialize
-      //     .toast('Please provide LEFT side score for Inline Lunge.',
-      //       2000, '', () => {
-      //       $('#il-raw-score-left-edit').parent().find('input').focus();
-      //     });
-      // }
-
-      // if (fieldsByName['il-raw-score-left'] &&
-      //     !fieldsByName['il-raw-score-right']) {
-      //   return Materialize
-      //     .toast('Please provide RIGHT side score for Hurdle Step.',
-      //       2000, '', () => {
-      //       $('#il-raw-score-right-edit').parent().find('input').focus();
-      //     });
-      // }
-
-      // if (!fieldsByName['sm-raw-score-left'] &&
-      //      fieldsByName['sm-raw-score-right']) {
-      //   return Materialize
-      //     .toast('Please provide LEFT side score for Shoulder Mobility.',
-      //       2000, '', () => {
-      //       $('#sm-raw-score-left-edit').parent().find('input').focus();
-      //     });
-      // }
-
-      // if (fieldsByName['sm-raw-score-left'] &&
-      //     !fieldsByName['sm-raw-score-right']) {
-      //   return Materialize
-      //     .toast('Please provide RIGHT side score for Shoulder Mobility.',
-      //       2000, '', () => {
-      //       $('#sm-raw-score-right-edit').parent().find('input').focus();
-      //     });
-      // }
-
-      app.saveAssessment(app.calculateFinalScores(fieldsByName))
-        .then(() => app.showClientListView(app.user))
-        .catch((error) => console.error(`error saving new screen: ${error}`));
+      app.saveAssessment(fields, function() {
+        app.showClientListView(app.user);
+      });
     });
 
     $('#btn-cancel').on('click', function(e) {
@@ -410,11 +367,24 @@
     // app methods
     //
     // -------------------------------------------------------------------------
+    app.registerDataListener = function(cb) {
+      if (!app.refs.client) {
+        const trainerId = app.firebase.auth.currentUser.uid;
+        app.refs.client = app.firebase.db.ref(`/clients/${trainerId}/`);
+
+        app.refs.client.on('value', function(snapshot) {
+          app.clients = snapshot.val();
+          cb();
+        });
+      }
+    };
 
     app.onAuthStateChanged = function(user) {
       if (user) {
         app.user = user.displayName;
-        app.showClientListView(app.user);
+        app.registerDataListener(function() {
+          app.showClientListView(app.user);
+        });
         $('.logout').removeClass('hide');
       } else {
         app.user = null;
@@ -440,15 +410,11 @@
     };
 
     app.showClientListView = function(user) {
-      return app
-        .fetchClients(user)
-        .then((clients) => {
-          app.buildClientListView(clients);
-          app.toggleViewOn(app.views.$clientList);
-          window.history.pushState({
-            route: '/list',
-          }, 'FMS', '/list');
-        });
+      app.buildClientListView(app.clients);
+      app.toggleViewOn(app.views.$clientList);
+      window.history.pushState({
+        route: '/list',
+      }, 'FMS', '/list');
     };
 
     app.showEditAssessmentView = function(clientId) {
@@ -473,230 +439,38 @@
       }, 'FMS', '/detail');
     };
 
-    app.fetchClients = function(user) {
-      const clients = [
-        {
-          id: '00005',
-          firstName: 'Peter',
-          lastName: 'Piper',
-          score: 10,
-          notes: 'peter piper notes...',
-          assessments: [
-            {
-              date: '05-16-2017',
-              screens: {
-                ds: {
-                  scores: {
-                    raw: 1,
-                    final: 1,
-                  },
-                  notes: 'deep squat note...',
-                },
-                hs: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 2,
-                    final: 1,
-                  },
-                  notes: 'hurdle step note...',
-                },
-                il: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 2,
-                    final: 1,
-                  },
-                  notes: 'inline lunge note...',
-                },
-                sm: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 2,
-                    final: 1,
-                  },
-                  notes: 'shoulder mobility note...',
-                },
-                sct: {
-                  scores: {
-                    rawLeft: '-',
-                    rawRight: '+',
-                    final: '+',
-                  },
-                  notes: 'shoulder clearing test note...',
-                },
-                aslr: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 2,
-                    final: 1,
-                  },
-                  notes: 'active straight leg raise note...',
-                },
-                tsp: {
-                  scores: {
-                    raw: 1,
-                    final: 1,
-                  },
-                  notes: 'trunk stability push-ups note...',
-                },
-                ect: {
-                  scores: {
-                    raw: '-',
-                    final: '-',
-                  },
-                  notes: 'extension clearning test note...',
-                },
-                rs: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 2,
-                    final: 1,
-                  },
-                  notes: 'rotary stability note...',
-                },
-                fct: {
-                  scores: {
-                    raw: '-',
-                    final: '-',
-                  },
-                  notes: 'flexion clearing test...',
-                },
-              },
-            },
-          ],
-        },
-        {
-          id: '00006',
-          firstName: 'Hans',
-          lastName: 'Gruber',
-          score: 14,
-          notes: 'hans gruber notes...',
-          assessments: [
-            {
-              date: '05-16-2017',
-              screens: {
-                ds: {
-                  scores: {
-                    raw: 2,
-                    final: 2,
-                  },
-                  notes: 'kness fold in',
-                },
-                hs: {
-                  scores: {
-                    rawLeft: 3,
-                    rawRight: 2,
-                    final: 2,
-                  },
-                  notes: 'all is ok',
-                },
-                il: {
-                  scores: {
-                    rawLeft: 0,
-                    rawRight: 2,
-                    final: 0,
-                  },
-                  notes: 'pain!!',
-                },
-                sm: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 3,
-                    final: 1,
-                  },
-                  notes: 'shoulders move ok',
-                },
-                sct: {
-                  scores: {
-                    rawLeft: '-',
-                    rawRight: '-',
-                    final: '-',
-                  },
-                  notes: 'pass',
-                },
-                aslr: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 1,
-                    final: 1,
-                  },
-                  notes: 'aslr',
-                },
-                tsp: {
-                  scores: {
-                    raw: 3,
-                    final: 3,
-                  },
-                  notes: 'push-ups are okay',
-                },
-                ect: {
-                  scores: {
-                    raw: '+',
-                    final: '+',
-                  },
-                  notes: 'all bad!!',
-                },
-                rs: {
-                  scores: {
-                    rawLeft: 1,
-                    rawRight: 2,
-                    final: 1,
-                  },
-                  notes: 'rotary stability ..........',
-                },
-                fct: {
-                  scores: {
-                    raw: '-',
-                    final: '-',
-                  },
-                  notes: 'flexed',
-                },
-              },
-            },
-          ],
-        },
-      ];
-
-      if (!app.clients.length) {
-        // no clients yet, so
-        // ...go fetch (which is an async process)
-        // ...set app state
-        app.clients = clients;
-        return Promise.resolve(clients);
-      }
-
-      return Promise.resolve(app.clients);
-    };
-
-    app.buildClientListView = function(clients = []) {
-      let clientsToAdd;
+    app.buildClientListView = function(clients = {}) {
+      const clientsById = {};
       const $clientList = app.views.$clientList.find('.row');
 
-      // determine clients to add to ui. initially, its all clients. then it's
-      // clients added via new screens submitted. basically, we sync ui w/ app
-      // state.
-      if ($clientList.children().length) {
-        const clientsById = {};
+      $clientList.children().each(function(idx, child) {
+        let clientId = $(child).find('.card-panel').data('client-id');
 
-        $clientList.children().each(function(idx, child) {
-          let clientId = $(child).find('.card-panel').data('client-id');
+        if (clientId) {
+          clientsById[clientId] = true;
+        }
+      });
 
-          if (clientId) {
-            clientsById[clientId] = true;
-          }
-        });
-        clientsToAdd = clients.filter((client) => !clientsById[client.id]);
-      } else {
-        clientsToAdd = clients.slice();
-      }
+      const clientsToAdd = Object.entries(clients)
+        .filter(([id]) => !clientsById[id]);
 
       clientsToAdd
-        .map((client) => {
+        .map(([id, client]) => {
           const $clone = $('.client-template').clone(true);
-          $clone.removeClass('client-template hide');
-          $clone.find('.client-name').text(client.firstName);
-          $clone.find('.client-score').text(client.score);
-          $clone.find('.card-panel').data('client-id', client.id);
+          $clone
+            .removeClass('client-template hide');
+          $clone
+            .find('.client-name')
+            .text(`${client.firstName} ${client.lastName}`);
+          $clone
+            .find('.client-score')
+            .text(client.score);
+          $clone
+            .find('.client-notes')
+            .text(client.notes);
+          $clone
+            .find('.card-panel')
+            .data('client-id', id);
           return $clone;
         })
         .forEach(($client) => {
@@ -908,111 +682,50 @@
         });
     };
 
-    app.calculateFinalScores = function(fields) {
-      return fields;
+    app.calculateFinalScore = function(fields) {
+      let score = 0;
+
+      score += Number(fields['ds-score']);
+      score += Number(fields['hs-score']);
+      score += Number(fields['il-score']);
+      score += Number(fields['sm-score']);
+      score += Number(fields['aslr-score']);
+      score += Number(fields['tsp-score']);
+      score += Number(fields['rs-score']);
+
+      return score.toString();
     };
 
-    app.saveAssessment = function(fields) {
-      console.log(fields);
-      // const clientsRef = app.firebase.db.ref('clients');
-      // const assessmentsRef = app.firebase.db.ref('assessments');
+    app.saveAssessment = function(fields, done) {
+      const trainerId = app.firebase.auth.currentUser.uid;
+      const clientsRef = app.firebase.db.ref('clients');
+      const assessmentsRef = app.firebase.db.ref('assessments');
 
-      // const client = {
-      //   firstName: fields['client-first-name'],
-      //   lastName: fields['client-last-name'],
-      //   score: 12,
-      //   notes: 'what a pain in the ass client!',
-      //   trainerId: app.firebase.auth.currentUser.uid,
-      // };
-      // const assessment = {
-      //   date: '05-16-2017',
-      //   screens: {
-      //     ds: {
-      //       scores: {
-      //         raw: 1,
-      //         final: 1,
-      //       },
-      //       notes: 'deep squat note...',
-      //     },
-      //     hs: {
-      //       scores: {
-      //         rawLeft: 1,
-      //         rawRight: 2,
-      //         final: 1,
-      //       },
-      //       notes: 'hurdle step note...',
-      //     },
-      //     il: {
-      //       scores: {
-      //         rawLeft: 1,
-      //         rawRight: 2,
-      //         final: 1,
-      //       },
-      //       notes: 'inline lunge note...',
-      //     },
-      //     sm: {
-      //       scores: {
-      //         rawLeft: 1,
-      //         rawRight: 2,
-      //         final: 1,
-      //       },
-      //       notes: 'shoulder mobility note...',
-      //     },
-      //     sct: {
-      //       scores: {
-      //         rawLeft: '-',
-      //         rawRight: '+',
-      //         final: '+',
-      //       },
-      //       notes: 'shoulder clearing test note...',
-      //     },
-      //     aslr: {
-      //       scores: {
-      //         rawLeft: 1,
-      //         rawRight: 2,
-      //         final: 1,
-      //       },
-      //       notes: 'active straight leg raise note...',
-      //     },
-      //     tsp: {
-      //       scores: {
-      //         raw: 1,
-      //         final: 1,
-      //       },
-      //       notes: 'trunk stability push-ups note...',
-      //     },
-      //     ect: {
-      //       scores: {
-      //         raw: '-',
-      //         final: '-',
-      //       },
-      //       notes: 'extension clearning test note...',
-      //     },
-      //     rs: {
-      //       scores: {
-      //         rawLeft: 1,
-      //         rawRight: 2,
-      //         final: 1,
-      //       },
-      //       notes: 'rotary stability note...',
-      //     },
-      //     fct: {
-      //       scores: {
-      //         raw: '-',
-      //         final: '-',
-      //       },
-      //       notes: 'flexion clearing test...',
-      //     },
-      //   },
-      // };
+      const client = {
+        firstName: fields['client-first-name'],
+        lastName: fields['client-last-name'],
+        score: fields['client-score'],
+        notes: fields['client-notes'],
+      };
 
-      // if (client.id) {
-      // } else {
-      //   const clientKey = clientsRef.push(client).key;
-      //   assessmentsRef.child(`/${clientKey}/`).push(assessment);
-      // }
+      const assessment = Object.assign({}, fields);
+      delete assessment['client-first-name'];
+      delete assessment['client-last-name'];
+      delete assessment['client-score'];
+      delete assessment['client-notes'];
 
-      return Promise.resolve(true);
+      if (client.id) {
+        // no op right now
+      } else {
+        const clientKey = clientsRef
+          .child(`/${trainerId}/`)
+          .push(client)
+          .key;
+
+        assessmentsRef
+          .child(`/${trainerId}/${clientKey}/`)
+          .push(assessment, done);
+      }
     };
 
     app.toggleViewOn = function($targetView) {
@@ -1026,13 +739,13 @@
     };
 
     app.startup = function() {
+      app.firebase.auth.onAuthStateChanged(app.onAuthStateChanged);
+
       if (!app.user) {
         app.showSignInView();
       } else {
         app.showClientListView(app.user);
       }
-
-      app.firebase.auth.onAuthStateChanged(app.onAuthStateChanged);
     };
 
     window.onpopstate = function({state}) {
