@@ -426,6 +426,16 @@
 
     app.showEditAssessmentView = function(clientId) {
       $('form')[0].reset();
+      $('#ds-score').text('');
+      $('#hs-score').text('');
+      $('#il-score').text('');
+      $('#sm-score').text('');
+      $('#sct-score').text('');
+      $('#aslr-score').text('');
+      $('#tsp-score').text('');
+      $('#ect-score').text('');
+      $('#rs-score').text('');
+      $('#fct-score').text('');
 
       if (clientId) {
         console.log(`load client id: ${clientId}`);
