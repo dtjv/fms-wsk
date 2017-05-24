@@ -79,6 +79,7 @@
   (function(window) {
     'use strict';
 
+    const ON = 'on';
     const PLUS = '+';
     const MINUS = '-';
     const ICON_PLUS = 'add';
@@ -159,7 +160,13 @@
       if (!$target.hasClass('card-panel')) {
         $target = $target.parent();
       }
-      app.showClientDetailView($target.data('client-id'));
+      const clientId = $target.data('client-id');
+
+      if (clientId && app.clients[clientId]) {
+        app.showClientDetailView(clientId);
+      } else {
+        console.error(`Cannot find client id - ${clientId} in app.clients`);
+      }
     });
 
     $('#btn-close-detail').on('click', function(e) {
@@ -431,8 +438,7 @@
     };
 
     app.showClientDetailView = function(clientId) {
-      const client = app.clients.filter((client) => client.id === clientId);
-      app.buildClientDetailView(client[0]);
+      app.buildClientDetailView(clientId);
       app.toggleViewOn(app.views.$clientDetail);
       window.history.pushState({
         route: '/detail',
@@ -478,10 +484,13 @@
         });
     };
 
-    app.buildClientDetailView = function(client) {
-      const populateClient = function($el) {
+    app.buildClientDetailView = function(clientId) {
+      const populateClient = function(clientId, assessmentId, client) {
+        const $el = app.views.$clientDetail.find('#client-read');
         $el
-          .data('client-id', client.id);
+          .data('client-id', clientId);
+        $el
+          .data('assessment-id', assessmentId);
         $el
           .find('#client-name-read')
           .text(`${client.firstName} ${client.lastName}`);
@@ -493,193 +502,184 @@
           .text(`${client.notes}`);
       };
 
-      const populateDS = function($el) {
+      const populateDS = function($el, screens) {
         $el
           .find('#ds-score-read')
-          .text(`${screens['ds'].scores.final}`);
+          .text(`${screens['ds-score']}`);
         $el
           .find('#ds-notes-read')
-          .text(`${screens['ds'].notes}`);
+          .text(`${screens['ds-notes']}`);
       };
 
-      const populateHS = function($el) {
+      const populateHS = function($el, screens) {
         $el
           .find('#hs-score-read')
-          .text(`${screens['hs'].scores.final}`);
+          .text(`${screens['hs-score']}`);
         $el
           .find('#hs-notes-read')
-          .text(`${screens['hs'].notes}`);
+          .text(`${screens['hs-notes']}`);
         $el
           .find('#hs-raw-score-left-read')
-          .text(`${screens['hs'].scores.rawLeft}`);
+          .text(`${screens['hs-raw-score-left'] || ''}`);
         $el
           .find('#hs-raw-score-right-read')
-          .text(`${screens['hs'].scores.rawRight}`);
+          .text(`${screens['hs-raw-score-right'] || ''}`);
       };
 
-      const populateIL = function($el) {
+      const populateIL = function($el, screens) {
         $el
           .find('#il-score-read')
-          .text(`${screens['il'].scores.final}`);
+          .text(`${screens['il-score']}`);
         $el
           .find('#il-notes-read')
-          .text(`${screens['il'].notes}`);
+          .text(`${screens['il-notes']}`);
         $el
           .find('#il-raw-score-left-read')
-          .text(`${screens['il'].scores.rawLeft}`);
+          .text(`${screens['il-raw-score-left'] || ''}`);
         $el
           .find('#il-raw-score-right-read')
-          .text(`${screens['il'].scores.rawRight}`);
+          .text(`${screens['il-raw-score-right'] || ''}`);
       };
 
-      const populateSM = function($el) {
+      const populateSM = function($el, screens) {
         $el
           .find('#sm-score-read')
-          .text(`${screens['sm'].scores.final}`);
+          .text(`${screens['sm-score']}`);
         $el
           .find('#sm-notes-read')
-          .text(`${screens['sm'].notes}`);
+          .text(`${screens['sm-notes']}`);
         $el
           .find('#sm-raw-score-left-read')
-          .text(`${screens['sm'].scores.rawLeft}`);
+          .text(`${screens['sm-raw-score-left'] || ''}`);
         $el
           .find('#sm-raw-score-right-read')
-          .text(`${screens['sm'].scores.rawRight}`);
+          .text(`${screens['sm-raw-score-right'] || ''}`);
       };
 
-      const populateSCT = function($el) {
+      const populateSCT = function($el, screens) {
         $el
           .find('#sct-score-read')
-          .text(`
-            ${screens['sct'].scores.final === PLUS
-              ? ICON_PLUS
-              : ICON_MINUS}
-          `);
+          .text(`${screens['sct-score'] === PLUS ? ICON_PLUS : ICON_MINUS}`);
         $el
           .find('#sct-notes-read')
-          .text(`${screens['sct'].notes}`);
+          .text(`${screens['sct-notes']}`);
         $el
           .find('#sct-raw-score-left-read')
           .text(`
-            ${screens['sct'].scores.rawLeft === PLUS
-              ? ICON_PLUS
-              : ICON_MINUS}
+            ${screens['sct-raw-score-left'] === ON ? ICON_PLUS : ICON_MINUS}
           `);
         $el
           .find('#sct-raw-score-right-read')
           .text(`
-            ${screens['sct'].scores.rawRight === PLUS
-              ? ICON_PLUS
-              : ICON_MINUS}
+            ${screens['sct-raw-score-right'] === ON ? ICON_PLUS : ICON_MINUS}
           `);
       };
 
-      const populateASLR = function($el) {
+      const populateASLR = function($el, screens) {
         $el
           .find('#aslr-score-read')
-          .text(`${screens['aslr'].scores.final}`);
+          .text(`${screens['aslr-score']}`);
         $el
           .find('#aslr-notes-read')
-          .text(`${screens['aslr'].notes}`);
+          .text(`${screens['aslr-notes']}`);
         $el
           .find('#aslr-raw-score-left-read')
-          .text(`${screens['aslr'].scores.rawLeft}`);
+          .text(`${screens['aslr-raw-score-left'] || ''}`);
         $el
           .find('#aslr-raw-score-right-read')
-          .text(`${screens['aslr'].scores.rawRight}`);
+          .text(`${screens['aslr-raw-score-right'] || ''}`);
       };
 
-      const populateTSP = function($el) {
+      const populateTSP = function($el, screens) {
         $el
           .find('#tsp-score-read')
-          .text(`${screens['tsp'].scores.final}`);
+          .text(`${screens['tsp-score']}`);
         $el
           .find('#tsp-notes-read')
-          .text(`${screens['tsp'].notes}`);
+          .text(`${screens['tsp-notes']}`);
       };
 
-      const populateECT = function($el) {
+      const populateECT = function($el, screens) {
         $el
           .find('#ect-score-read')
           .text(`
-            ${screens['ect'].scores.final === PLUS
-              ? ICON_PLUS
-              : ICON_MINUS}
+            ${screens['ect-score'] === ON ? ICON_PLUS : ICON_MINUS}
           `);
         $el
           .find('#ect-notes-read')
-          .text(`${screens['ect'].notes}`);
+          .text(`${screens['ect-notes']}`);
       };
 
-      const populateRS = function($el) {
+      const populateRS = function($el, screens) {
         $el
           .find('#rs-score-read')
-          .text(`${screens['rs'].scores.final}`);
+          .text(`${screens['rs-score']}`);
         $el
           .find('#rs-notes-read')
-          .text(`${screens['rs'].notes}`);
+          .text(`${screens['rs-notes']}`);
         $el
           .find('#rs-raw-score-left-read')
-          .text(`${screens['rs'].scores.rawLeft}`);
+          .text(`${screens['rs-raw-score-left'] || ''}`);
         $el
           .find('#rs-raw-score-right-read')
-          .text(`${screens['rs'].scores.rawRight}`);
+          .text(`${screens['rs-raw-score-right'] || ''}`);
       };
 
-      const populateFCT = function($el) {
+      const populateFCT = function($el, screens) {
         $el
           .find('#fct-score-read')
           .text(`
-            ${screens['fct'].scores.final === PLUS
-              ? ICON_PLUS
-              : ICON_MINUS}
+            ${screens['fct-score'] === ON ? ICON_PLUS : ICON_MINUS}
           `);
         $el
           .find('#fct-notes-read')
-          .text(`${screens['fct'].notes}`);
+          .text(`${screens['fct-notes']}`);
       };
 
-      const screens = client.assessments[0].screens;
-
-      const $clientEl = app
-        .views
-        .$clientDetail
-        .find('#client-read');
-
-      populateClient($clientEl);
+      const trainerId = app.firebase.auth.currentUser.uid;
 
       app
-        .views
-        .$clientDetail
-        .find('.screen')
-        .each(function(index, screen) {
-          const $screen = $(screen);
+        .firebase
+        .db
+        .ref(`/assessments/${trainerId}/${clientId}/`)
+        .once('value', function(snapshot) {
+          const [assessmentId, screens] = Object.entries(snapshot.val())[0];
 
-          switch ($screen.attr('id')) {
-            case 'ds-read':
-              return populateDS($screen);
-            case 'hs-read':
-              return populateHS($screen);
-            case 'il-read':
-              return populateIL($screen);
-            case 'sm-read':
-              return populateSM($screen);
-            case 'sct-read':
-              return populateSCT($screen);
-            case 'aslr-read':
-              return populateASLR($screen);
-            case 'tsp-read':
-              return populateTSP($screen);
-            case 'ect-read':
-              return populateECT($screen);
-            case 'rs-read':
-              return populateRS($screen);
-            case 'fct-read':
-              return populateFCT($screen);
-            default:
-              return undefined;
-          }
-        });
+          populateClient(clientId, assessmentId, app.clients[clientId]);
+
+          app
+            .views
+            .$clientDetail
+            .find('.screen')
+            .each(function(index, screen) {
+              const $screen = $(screen);
+
+              switch ($screen.attr('id')) {
+                case 'ds-read':
+                  return populateDS($screen, screens);
+                case 'hs-read':
+                  return populateHS($screen, screens);
+                case 'il-read':
+                  return populateIL($screen, screens);
+                case 'sm-read':
+                  return populateSM($screen, screens);
+                case 'sct-read':
+                  return populateSCT($screen, screens);
+                case 'aslr-read':
+                  return populateASLR($screen, screens);
+                case 'tsp-read':
+                  return populateTSP($screen, screens);
+                case 'ect-read':
+                  return populateECT($screen, screens);
+                case 'rs-read':
+                  return populateRS($screen, screens);
+                case 'fct-read':
+                  return populateFCT($screen, screens);
+                default:
+                  return undefined;
+              }
+            });
+      });
     };
 
     app.calculateFinalScore = function(fields) {
