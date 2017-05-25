@@ -76,7 +76,7 @@
   // app specific
   //
   // ---------------------------------------------------------------------------
-  (function(window) {
+  (function() {
     'use strict';
 
     const ON = 'on';
@@ -606,7 +606,7 @@
         $el
           .find('#ect-score-read')
           .text(`
-            ${screens['ect-score'] === ON ? ICON_PLUS : ICON_MINUS}
+            ${screens['ect-score'] === PLUS ? ICON_PLUS : ICON_MINUS}
           `);
         $el
           .find('#ect-notes-read')
@@ -632,7 +632,7 @@
         $el
           .find('#fct-score-read')
           .text(`
-            ${screens['fct-score'] === ON ? ICON_PLUS : ICON_MINUS}
+            ${screens['fct-score'] === PLUS ? ICON_PLUS : ICON_MINUS}
           `);
         $el
           .find('#fct-notes-read')
@@ -795,6 +795,13 @@
 
           $('select').material_select();
           Materialize.updateTextFields();
+
+          // when site is served from dist build, the 'type=text' attr for
+          // client first name and last name fields goes missing. thus, the
+          // method above to update text fields won't select those two fields
+          // to update.
+          $('#first-name-edit').parent().find('label').addClass('active');
+          $('#last-name-edit').parent().find('label').addClass('active');
         });
     };
 
@@ -904,8 +911,6 @@
     // startup
     //
     // -------------------------------------------------------------------------
-
-    window.fms = app;
     app.startup();
-  })(window);
+  })();
 })();
