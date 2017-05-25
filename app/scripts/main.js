@@ -739,9 +739,9 @@
           $('#sct-score-edit').val(screens['sct-score']);
 
           if (screens['sct-score'] === PLUS) {
-            $('#sct-score').text(PLUS);
+            $('#sct-score').text(ICON_PLUS);
           } else {
-            $('#sct-score').text(MINUS);
+            $('#sct-score').text(ICON_MINUS);
           }
 
           $('#sct-notes-edit').val(screens['sct-notes']);
@@ -766,9 +766,9 @@
           $('#ect-score-edit').val(screens['ect-score']);
 
           if (screens['ect-score'] === PLUS) {
-            $('#ect-score').text(PLUS);
+            $('#ect-score').text(ICON_PLUS);
           } else {
-            $('#ect-score').text(MINUS);
+            $('#ect-score').text(ICON_MINUS);
           }
 
           $('#fct-notes-edit').val(screens['fct-notes']);
@@ -786,9 +786,9 @@
           $('#fct-score-edit').val(screens['fct-score']);
 
           if (screens['fct-score'] === PLUS) {
-            $('#fct-score').text(PLUS);
+            $('#fct-score').text(ICON_PLUS);
           } else {
-            $('#fct-score').text(MINUS);
+            $('#fct-score').text(ICON_MINUS);
           }
 
           $('#fct-notes-edit').val(screens['fct-notes']);
