@@ -439,7 +439,6 @@
       $('#fct-score').text('');
 
       if (clientId) {
-        console.log(`load client id: ${clientId}`);
         app.buildEditAssessmentView(clientId);
       }
 
@@ -458,25 +457,17 @@
     };
 
     app.buildClientListView = function(clients = {}) {
-      const clientsById = {};
       const $clientList = app.views.$clientList.find('.row');
 
-      $clientList.children().each(function(idx, child) {
-        let clientId = $(child).find('.card-panel').data('client-id');
+      $clientList.find('.clone').remove();
 
-        if (clientId) {
-          clientsById[clientId] = true;
-        }
-      });
-
-      const clientsToAdd = Object.entries(clients)
-        .filter(([id]) => !clientsById[id]);
-
-      clientsToAdd
+      Object.entries(clients)
         .map(([id, client]) => {
           const $clone = $('.client-template').clone(true);
           $clone
             .removeClass('client-template hide');
+          $clone
+            .addClass('clone');
           $clone
             .find('.client-name')
             .text(`${client.firstName} ${client.lastName}`);
@@ -822,27 +813,33 @@
     };
 
     app.saveAssessment = function(fields, done) {
-      const clientId = fields['client-id'];
       const trainerId = app.firebase.auth.currentUser.uid;
-      const clientsRef = app.firebase.db.ref('clients');
-      const assessmentsRef = app.firebase.db.ref('assessments');
-
+      const clientId = fields['client-id'];
+      const assessmentId = fields['assessment-id'];
       const client = {
         firstName: fields['client-first-name'],
         lastName: fields['client-last-name'],
         score: fields['client-score'],
         notes: fields['client-notes'],
       };
-
       const assessment = Object.assign({}, fields);
       delete assessment['client-first-name'];
       delete assessment['client-last-name'];
       delete assessment['client-score'];
       delete assessment['client-notes'];
+      delete assessment['client-id'];
+      delete assessment['assessment-id'];
 
       if (clientId) {
-        console.log(`update client ${clientId}`);
+        const updates = {};
+        updates[`/clients/${trainerId}/${clientId}/`] = client;
+        updates[`/assessments/${trainerId}/${clientId}/${assessmentId}/`] =
+          assessment;
+        app.firebase.db.ref().update(updates).then(done);
       } else {
+        const clientsRef = app.firebase.db.ref('clients');
+        const assessmentsRef = app.firebase.db.ref('assessments');
+
         const clientKey = clientsRef
           .child(`/${trainerId}/`)
           .push(client)
