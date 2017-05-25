@@ -99,7 +99,8 @@
         <div id="edit-assessment-view" class="hide">
           <div class="row">
             <form class="col s12">
-
+              <input id="client-id-edit" type="text" name="client-id" hidden />
+              <input id="assessment-id-edit" type="text" name="assessment-id" hidden />
               <div id="client-edit" class="row client white z-depth-3">
                 <div class="col s12 m6 offset-m3">
                   <div class="client-title blue-grey-text text-darken-2">Client</div>
@@ -132,7 +133,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Deep Squat
-                    <span id="ds-score" class="right"></span>
+                    <span id="ds-score" class="score right"></span>
                     <input id="ds-score-edit" name="ds-score" type="text" hidden />
                   </div>
                   <div class="row">
@@ -161,7 +162,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Hurdle Step
-                    <span id="hs-score" class="right"></span>
+                    <span id="hs-score" class="score right"></span>
                     <input id="hs-score-edit" name="hs-score" type="text" hidden />
                   </div>
                   <div class="row">
@@ -201,7 +202,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Inline Lunge
-                    <span id="il-score" class="right"></span>
+                    <span id="il-score" class="score right"></span>
                     <input id="il-score-edit" name="il-score" type="text" hidden />
                   </div>
                   <div class="row">
@@ -241,7 +242,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Shoulder Mobility
-                    <span id="sm-score" class="right"></span>
+                    <span id="sm-score" class="score right"></span>
                     <input id="sm-score-edit" name="sm-score" type="text" hidden />
                   </div>
                   <div class="row">
@@ -281,7 +282,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Shoulder Clearing Test
-                    <i id="sct-score" class="material-icons icon right">remove</i>
+                    <i id="sct-score" class="material-icons icon score right">remove</i>
                     <input id="sct-score-edit" name="sct-score" type="text" value="-" hidden />
                   </div>
                   <div class="row">
@@ -331,7 +332,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Active Straight Leg Raise
-                    <span id="aslr-score" class="right"></span>
+                    <span id="aslr-score" class="score right"></span>
                     <input id="aslr-score-edit" name="aslr-score" type="text" hidden />
                   </div>
                   <div class="row">
@@ -371,7 +372,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Trunk Stability Pushup
-                    <span id="tsp-score" class="right"></span>
+                    <span id="tsp-score" class="score right"></span>
                     <input id="tsp-score-edit" name="tsp-score" type="text" hidden />
                   </div>
                   <div class="row">
@@ -400,7 +401,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Extension Clearing Test
-                    <i id="ect-score" class="material-icons icon right">remove</i>
+                    <i id="ect-score" class="material-icons icon score right">remove</i>
                     <input id="ect-score-edit" name="ect-score" type="text" value="-" hidden />
                   </div>
                   <div class="row">
@@ -432,7 +433,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Rotary Stability
-                    <span id="rs-score" class="right"></span>
+                    <span id="rs-score" class="score right"></span>
                     <input id="rs-score-edit" name="rs-score" type="text" hidden />
                   </div>
                   <div class="row">
@@ -472,7 +473,7 @@
                 <div class="col s12 m6 offset-m3">
                   <div class="screen-title blue-grey-text text-darken-2">
                     Flexion Clearing Test
-                    <i id="fct-score" class="material-icons icon right">remove</i>
+                    <i id="fct-score" class="material-icons icon score right">remove</i>
                     <input id="fct-score-edit" name="fct-score" type="text" value="-" hidden />
                   </div>
                   <div class="row">

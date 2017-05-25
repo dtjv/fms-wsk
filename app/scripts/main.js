@@ -126,7 +126,7 @@
         fields[name] = value;
       });
 
-      // validate fields
+      // required field
       if (!fields['client-first-name']) {
         return Materialize
           .toast('Please provide client\'s first name.', 2000, '', () => {
@@ -134,6 +134,7 @@
           });
       }
 
+      // required field
       if (!fields['client-last-name']) {
         return Materialize
           .toast('Please provide client\'s last name.', 2000, '', () => {
@@ -439,6 +440,7 @@
 
       if (clientId) {
         console.log(`load client id: ${clientId}`);
+        app.buildEditAssessmentView(clientId);
       }
 
       app.toggleViewOn(app.views.$editAssessment);
@@ -653,6 +655,7 @@
         .db
         .ref(`/assessments/${trainerId}/${clientId}/`)
         .once('value', function(snapshot) {
+          // `snapshot` is actually all assessments for this selected client
           const [assessmentId, screens] = Object.entries(snapshot.val())[0];
 
           populateClient(clientId, assessmentId, app.clients[clientId]);
@@ -692,6 +695,118 @@
       });
     };
 
+    app.buildEditAssessmentView = function(clientId) {
+      const trainerId = app.firebase.auth.currentUser.uid;
+
+      app
+        .firebase
+        .db
+        .ref(`/assessments/${trainerId}/${clientId}/`)
+        .once('value', function(snapshot) {
+          // `snapshot` is actually all assessments for this selected client
+          const [assessmentId, screens] = Object.entries(snapshot.val())[0];
+          const client = app.clients[clientId];
+
+          $('#client-id-edit').val(clientId);
+          $('#assessment-id-edit').val(assessmentId);
+
+          $('#first-name-edit').val(client.firstName);
+          $('#last-name-edit').val(client.lastName);
+          $('#client-notes-edit').val(client.notes);
+
+          $('#ds-raw-score-edit').val(screens['ds-raw-score']);
+          $('#ds-score-edit').val(screens['ds-score']);
+          $('#ds-score').text(screens['ds-score']);
+          $('#ds-notes-edit').val(screens['ds-notes']);
+
+          $('#hs-raw-score-left-edit').val(screens['hs-raw-score-left']);
+          $('#hs-raw-score-right-edit').val(screens['hs-raw-score-right']);
+          $('#hs-score-edit').val(screens['hs-score']);
+          $('#hs-score').text(screens['hs-score']);
+          $('#hs-notes-edit').val(screens['hs-notes']);
+
+          $('#il-raw-score-left-edit').val(screens['il-raw-score-left']);
+          $('#il-raw-score-right-edit').val(screens['il-raw-score-right']);
+          $('#il-score-edit').val(screens['il-score']);
+          $('#il-score').text(screens['il-score']);
+          $('#il-notes-edit').val(screens['il-notes']);
+
+          $('#sm-raw-score-left-edit').val(screens['sm-raw-score-left']);
+          $('#sm-raw-score-right-edit').val(screens['sm-raw-score-right']);
+          $('#sm-score-edit').val(screens['sm-score']);
+          $('#sm-score').text(screens['sm-score']);
+          $('#sm-notes-edit').val(screens['sm-notes']);
+
+          if (screens['sct-raw-score-left'] === ON) {
+            $('#sct-raw-score-left-edit input').prop('checked', true);
+          }
+
+          if (screens['sct-raw-score-right'] === ON) {
+            $('#sct-raw-score-right-edit input').prop('checked', true);
+          }
+
+          $('#sct-score-edit').val(screens['sct-score']);
+
+          if (screens['sct-score'] === PLUS) {
+            $('#sct-score').text(PLUS);
+          } else {
+            $('#sct-score').text(MINUS);
+          }
+
+          $('#sct-notes-edit').val(screens['sct-notes']);
+
+          $('#aslr-raw-score-left-edit')
+            .val(screens['aslr-raw-score-left']);
+          $('#aslr-raw-score-right-edit')
+            .val(screens['aslr-raw-score-right']);
+          $('#aslr-score-edit').val(screens['aslr-score']);
+          $('#aslr-score').text(screens['aslr-score']);
+          $('#aslr-notes-edit').val(screens['aslr-notes']);
+
+          $('#tsp-raw-score-edit').val(screens['tsp-raw-score']);
+          $('#tsp-score-edit').val(screens['tsp-score']);
+          $('#tsp-score').text(screens['tsp-score']);
+          $('#tsp-notes-edit').val(screens['tsp-notes']);
+
+          if (screens['ect-raw-score'] === ON) {
+            $('#ect-raw-score-edit input').prop('checked', true);
+          }
+
+          $('#ect-score-edit').val(screens['ect-score']);
+
+          if (screens['ect-score'] === PLUS) {
+            $('#ect-score').text(PLUS);
+          } else {
+            $('#ect-score').text(MINUS);
+          }
+
+          $('#fct-notes-edit').val(screens['fct-notes']);
+
+          $('#rs-raw-score-left-edit').val(screens['rs-raw-score-left']);
+          $('#rs-raw-score-right-edit').val(screens['rs-raw-score-right']);
+          $('#rs-score-edit').val(screens['rs-score']);
+          $('#rs-score').text(screens['rs-score']);
+          $('#rs-notes-edit').val(screens['rs-notes']);
+
+          if (screens['fct-raw-score'] === ON) {
+            $('#fct-raw-score-edit input').prop('checked', true);
+          }
+
+          $('#fct-score-edit').val(screens['fct-score']);
+
+          if (screens['fct-score'] === PLUS) {
+            $('#fct-score').text(PLUS);
+          } else {
+            $('#fct-score').text(MINUS);
+          }
+
+          $('#fct-notes-edit').val(screens['fct-notes']);
+
+          $('select').material_select();
+          Materialize.updateTextFields();
+        });
+    };
+
     app.calculateFinalScore = function(fields) {
       let score = 0;
 
@@ -707,6 +822,7 @@
     };
 
     app.saveAssessment = function(fields, done) {
+      const clientId = fields['client-id'];
       const trainerId = app.firebase.auth.currentUser.uid;
       const clientsRef = app.firebase.db.ref('clients');
       const assessmentsRef = app.firebase.db.ref('assessments');
@@ -724,8 +840,8 @@
       delete assessment['client-score'];
       delete assessment['client-notes'];
 
-      if (client.id) {
-        // no op right now
+      if (clientId) {
+        console.log(`update client ${clientId}`);
       } else {
         const clientKey = clientsRef
           .child(`/${trainerId}/`)
