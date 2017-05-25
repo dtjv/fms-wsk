@@ -133,8 +133,8 @@ gulp.task('scripts', () =>
       './app/styles/materialize/js/tooltip.js',
       './app/styles/materialize/js/transitions.js',
       './app/styles/materialize/js/waves.js',
-      './app/styles/materialize/js/date_picker/picker.js',
-      './app/styles/materialize/js/date_picker/picker.date.js',
+      //'./app/styles/materialize/js/date_picker/picker.js',
+      //'./app/styles/materialize/js/date_picker/picker.date.js',
       './app/scripts/main.js'
     ])
       .pipe($.newer('.tmp/scripts'))
