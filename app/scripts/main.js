@@ -105,6 +105,19 @@
 
     // -------------------------------------------------------------------------
     //
+    // hack!
+    //
+    // when site is served from dist build, the 'type=text' attr for
+    // client first name and last name fields go missing. this causes these two
+    // fields to not be selected by Materialize when `updateTextFields()` is
+    // called.
+    //
+    // -------------------------------------------------------------------------
+    $('#first-name-edit').attr('type', 'text');
+    $('#last-name-edit').attr('type', 'text');
+
+    // -------------------------------------------------------------------------
+    //
     // register event listeners
     //
     // -------------------------------------------------------------------------
@@ -798,13 +811,6 @@
 
           $('select').material_select();
           Materialize.updateTextFields();
-
-          // when site is served from dist build, the 'type=text' attr for
-          // client first name and last name fields goes missing. thus, the
-          // method above to update text fields won't select those two fields
-          // to update.
-          $('#first-name-edit').parent().find('label').addClass('active');
-          $('#last-name-edit').parent().find('label').addClass('active');
         });
     };
 
