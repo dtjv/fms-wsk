@@ -426,8 +426,8 @@
     app.showSignInView = function() {
       app.toggleViewOn(app.views.$signIn);
       window.history.pushState({
-        route: '/sign-in',
-      }, 'FMS', '/sign-in');
+        route: '/',
+      }, 'FMS', '/');
     };
 
     app.showClientListView = function(user) {
@@ -893,7 +893,6 @@
 
         switch (route) {
           case '/':
-          case '/sign-in':
             if (app.user) {
               app.showClientListView(app.user);
             } else {
