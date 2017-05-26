@@ -2,6 +2,13 @@
 
 A web app to capture [FMS](https://functionalmovement.com) assessment scores.
 
+![fms signin view](./media/fms1.png)
+![fms client view](./media/fms2.png)
+
+## Live
+
+Navigate to [https://fms-wsk.firebaseapp.com](https://fms-wsk.firebaseapp.com) to see the application.
+
 ## Tech Stack
 
 This app is based on [Web Starter Kit](https://github.com/google/web-starter-kit). However, I integrated [Materialize Sass](http://materializecss.com/) instead of [Material Design Lite](https://getmdl.io/).
