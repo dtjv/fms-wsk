@@ -440,6 +440,9 @@
 
       if (clientId) {
         app.buildEditAssessmentView(clientId);
+      } else {
+        $('select').material_select();
+        Materialize.updateTextFields();
       }
 
       app.toggleViewOn(app.views.$editAssessment);
