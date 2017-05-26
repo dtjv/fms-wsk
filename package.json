@@ -1,6 +1,6 @@
 {
   "name": "fms-wsk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A web app to capture FMS scores",
   "author": {
     "name": "David J. Valles",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dtjv/fms-app.git"
+    "url": "https://github.com/dtjv/fms-wsk.git"
   },
   "license": "Apache 2.0",
   "devDependencies": {
