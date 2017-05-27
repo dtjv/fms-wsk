@@ -817,13 +817,17 @@
     app.calculateFinalScore = function(fields) {
       let score = 0;
 
-      score += Number(fields['ds-score']);
-      score += Number(fields['hs-score']);
-      score += Number(fields['il-score']);
-      score += Number(fields['sm-score']);
-      score += Number(fields['aslr-score']);
-      score += Number(fields['tsp-score']);
-      score += Number(fields['rs-score']);
+      if (fields['smt-score'] === MINUS &&
+          fields['ect-score'] === MINUS &&
+          fields['fct-score'] === MINUS) {
+        score += Number(fields['ds-score']);
+        score += Number(fields['hs-score']);
+        score += Number(fields['il-score']);
+        score += Number(fields['sm-score']);
+        score += Number(fields['aslr-score']);
+        score += Number(fields['tsp-score']);
+        score += Number(fields['rs-score']);
+      }
 
       return score.toString();
     };
