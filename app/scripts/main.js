@@ -488,12 +488,6 @@
             .find('.client-name')
             .text(`${client.firstName} ${client.lastName}`);
           $clone
-            .find('.client-score')
-            .text(client.score);
-          $clone
-            .find('.client-notes')
-            .text(client.notes);
-          $clone
             .find('.card-panel')
             .data('client-id', id);
           return $clone;
@@ -817,7 +811,7 @@
     app.calculateFinalScore = function(fields) {
       let score = 0;
 
-      if (fields['smt-score'] === MINUS &&
+      if (fields['sct-score'] === MINUS &&
           fields['ect-score'] === MINUS &&
           fields['fct-score'] === MINUS) {
         score += Number(fields['ds-score']);
