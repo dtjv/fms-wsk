@@ -1,45 +1,28 @@
-# FMS-WSK
+# fms-wsk
 
 A web app to capture [FMS](https://functionalmovement.com) assessment scores.
 
-![fms signin view](./media/fms1.png)
-![fms client view](./media/fms2.png)
+<img src="./media/fms1.png" width="50%"/>
 
-## Live
+## [View demo](https://fms-wsk.web.app)
 
-Navigate to [https://fms-wsk.firebaseapp.com](https://fms-wsk.firebaseapp.com) to see the application.
+## Technology
 
-## Tech Stack
+- [Web Starter Kit](https://github.com/google/web-starter-kit)
+- [jQuery](https://jquery.com/)
+- [Materialize](http://materializecss.com/)
+- [Sass](https://sass-lang.com/)
+- [Firebase Authentication](https://firebase.google.com/products/auth)
+- [Firebase Realtime Database](https://firebase.google.com/products/realtime-database)
 
-This app is based on [Web Starter Kit](https://github.com/google/web-starter-kit). However, I integrated [Materialize Sass](http://materializecss.com/) instead of [Material Design Lite](https://getmdl.io/).
+## Author
 
-## Development
-
-Use the following build commands to get things done!
-
-### gulp serve
-
-Builds, serves and watches files for development.
-
-### gulp serve:dist
-
-Builds and serves production distribution.
-
-> All of a sudden sh?t did not work when I did this. No explanation - very frustrating!
-
-### gulp
-
-Builds production distribution. 
-
-## Deployment
-
-This project is deployed to [Firebase](https://firebase.google.com/). To begin, create an app at [Firebase Console](https://firebase.google.com/console).
-
-Then follow the instructions at [Web Starter Kit - Deploy to Firebase](https://github.com/google/web-starter-kit/blob/master/docs/deploy-firebase.md) to install, initialize and deploy the application.
+- [David Valles](https://dtjv.io)
 
 ## Disclaimer
 
-**This application is for personal use and education only. It is not an official application of, nor endorsed or supported by [FMS](https://functionalmovement.com).**
+This application is for personal use only. It is not an official application of,
+nor endorsed by [FMS](https://functionalmovement.com).
 
 ## License
 
